@@ -1,0 +1,282 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "PT Sans", sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar .container-fluid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.visibleNav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 3;
+}
+
+.navbar-brand {
+    cursor: default;
+}
+
+.navbar-toggler {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+#navbrand {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.visibleNav ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#searchLink {
+    width: 159px;
+    border-bottom: 2px solid black;
+    padding: 0;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.581);
+}
+
+.icon {
+    padding: 0px 20px;
+}
+
+#main-links-header {
+    margin: 65px 0px 0px 0px;
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.21);
+}
+
+#main-links-header a {
+    text-decoration: none;
+    color: black;
+}
+
+#main-links-header h1 {
+    text-transform: uppercase;
+    font-family:  "Roboto Condensed", sans-serif;;
+    font-weight: 400;
+    font-size: 25px;
+    text-align: left;
+}
+
+#categoriesDiv{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0px;
+}
+
+#categoriesDiv div a {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.781);
+    font-size: 17px;
+    text-transform: uppercase;
+}
+
+.singleImgDiv {
+    width: 100%;
+    height: 600px;
+    background-size: cover;
+    background-position: center 65%;
+    position: relative;
+    z-index: -1;
+}
+
+.singleImgDiv a {
+    width: 100%;
+    height: 100%;
+}
+
+.twoImgDiv {
+    width: 100%;
+    height: 600px;
+    display: flex;
+}
+
+.twoImgDiv a {
+    width: 100%;
+    height: 100%;
+}
+
+.imgSet {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    z-index: -1;
+}
+
+.productAdiv {
+    position: relative;
+    display: block;
+}
+
+.productInfoDiv {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.productDivh4 , .productDivh5 {
+    color: rgb(255, 255, 255);
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0px 0px;
+}
+
+footer {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+}
+
+footer .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 30px 0px;
+}
+
+.footerLinks {
+    width: 50%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding-right: 30px;
+}
+
+.socialmedia {
+    width: 50%;
+    height: 100px;
+    display: flex;
+}
+
+.footerLinks a {
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: black;
+    margin-left: auto;
+}
+
+.socialmediaDiv {
+    display: flex;
+    margin-left: auto;
+    padding-right: 30px;
+}
+
+.socialmedia a {
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: black;
+    padding: 0px 10px 0px 0px;
+    font-size: 30px;
+}
+
+.app {
+    width: 50%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.newsLetter {
+    width: 50%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.app img {
+    width: 85px;
+    height: 85px;
+}
+
+.app p {
+    text-transform: uppercase;
+    color: black;
+}
+
+label {
+    width: 100%;
+    font-size: 15px;
+    display: block;
+}
+
+input {
+    width: 200px;
+    display: block;
+    border: none;
+    border-bottom: 2px solid black;
+    padding: 10px 0px 0px 0px;
+}
+
+.offcanvas-title {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.offcanvas-body a {
+    text-transform: uppercase;
+}
+
+.dropdown-menu {
+    border: none !important;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #c0dfc086;
+}
+
+.dropdown-menu .dropdown-item:active {
+    color: black;
+}
+
+#main {
+    display: block;
+}
+
+#allProducts {
+    display: none;
+}
+
+.productRow img {
+    object-fit: cover;
+}
