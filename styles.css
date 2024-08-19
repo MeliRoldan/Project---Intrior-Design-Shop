@@ -77,7 +77,7 @@ body {
     text-transform: uppercase;
     font-family:  "Roboto Condensed", sans-serif;;
     font-weight: 400;
-    font-size: 40px;
+    font-size: 30px;
     text-align: left;
 }
 
@@ -157,7 +157,7 @@ body {
 
 footer {
     width: 100%;
-    height: auto;
+    height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -170,7 +170,7 @@ footer .container {
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin: 30px 0px;
+    height: 100%;
 }
 
 .footerLinks {
@@ -209,7 +209,7 @@ footer .container {
     text-transform: uppercase;
     color: black;
     padding: 0px 10px 0px 0px;
-    font-size: 33px;
+    font-size: 29px;
 }
 
 .app {
@@ -282,6 +282,134 @@ input {
     display: none;
 }
 
+.card-img-div {
+    cursor: pointer;
+}
+
 .productRow img {
     object-fit: cover;
+}
+
+.colorOutter {
+    border-radius: 50%;
+    width: 20px; 
+    height: 20px;
+    padding: 2px;
+    border: 0px solid gray;
+    position: relative;
+    margin: 0px 4px;
+    cursor: pointer;
+}
+
+.colorInner {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    position: absolute;
+}
+
+#productPage {
+    display: none;
+    width: 100%;
+    height: auto;
+}
+
+#productPageContainer {
+    width: 100%;
+    height: 100%;
+    border-top: 2px solid rgba(0, 0, 0, 0.21);
+}
+
+.itemMainImg {
+    width: 100%;
+    height: 100vh;
+}
+
+.itemMainImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.itemInfo {
+    padding: 30px !important;
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+#itemName , #itemPrize {
+    text-transform: uppercase;
+    font-family: "Roboto Condensed", sans-serif;
+    font-weight: 450;
+}
+
+#itemSKU {
+    font-size: 12px;
+}
+
+#itemDesciption {
+    font-size: 18px;
+}
+
+input[type=radio] {
+    width: 15px;
+}
+
+.itemCounter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.itemCounter span , .itemCounter p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.itemCounter p {
+    margin: 0;
+}
+
+.itemQuantity {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+}
+
+.counterOperators {
+    cursor: pointer;
+}
+
+.itemSpecLink {
+    text-transform: uppercase;
+    color: black;
+}
+
+.btnDIV {
+    display: flex;
+    justify-content: center;
+}
+
+.addToCartBtn {
+    padding: 5px 50px;
+    background-color: black;
+    border:none;
+    color: white;
+    text-transform: uppercase;
+    transition: 0.3s ease-in-out;
+}
+
+.addToCartBtn:hover {
+    background-color: #588157;
 }
