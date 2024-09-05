@@ -365,7 +365,7 @@ function productPageRender (divId) {
 
     for (let spec in findItem.specifications) {
         specs += `
-        <p>${capitalizeFirstLetter(spec)}: ${findItem.specifications[spec]}</p>
+        <p class="specP">${capitalizeFirstLetter(spec)}: ${findItem.specifications[spec]}</p>
         `
     }
 
@@ -376,7 +376,7 @@ function productPageRender (divId) {
     if (findItem.availability.length > 0) {
         for (let store of findItem.availability) {
             inStores += `
-            <p>
+            <p class="instoreP">
                 <span class="fst-italic">${store.branch} - </span>
                 <span class="fst-italic"> ${store.address} - </span>
                 <span class="fw-bold text-uppercase"> Qty: <span class="fw-bold">${store.quantity}</span></span>
