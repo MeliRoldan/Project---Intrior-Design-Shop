@@ -159,7 +159,7 @@ function displayCategoryProducts(id) {
     
             htmlContent += `
             <div class="col">
-                <div class="card" style="height: 400px; border: none;">
+                <div class="card itemCard" style="height: 573px; border: none;">
                     <div id="${product.id}" class="card-img-div" style="height: 80%;">
                         <img id="${product.id}" src="${product.imgSrc}" class="card-img-top w-100 h-100" alt="${product.name}" style="border-top-left-radius: 0; border-top-right-radius: 0; object-fit: cover;">
                     </div>

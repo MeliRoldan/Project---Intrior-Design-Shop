@@ -36,6 +36,7 @@ body {
 #navbrand {
     font-weight: bold;
     text-transform: uppercase;
+    font-size: 23px;
 }
 
 .visibleNav ul {
@@ -50,7 +51,7 @@ body {
     padding: 0;
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.581);
-    font-size: 18px;
+    font-size: 23px;
 }
 
 .icon {
@@ -81,7 +82,7 @@ body {
 }
 
 #main-links-header .nav-link {
-    font-size: 40px;
+    font-size: 45px;
 }
 
 #categoriesDiv{
@@ -94,7 +95,7 @@ body {
 #categoriesDiv div a {
     text-decoration: none;
     color: rgba(0, 0, 0, 0.781);
-    font-size: 18px;
+    font-size: 23px;
     text-transform: uppercase;
 }
 
@@ -155,7 +156,7 @@ body {
     text-transform: uppercase;
     text-align: center;
     padding: 0px 0px;
-    font-size: 40px;
+    font-size: 45px;
 }
 
 footer {
@@ -197,7 +198,7 @@ footer .container {
     text-transform: uppercase;
     color: black;
     margin-left: auto;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .socialmediaDiv {
@@ -212,7 +213,7 @@ footer .container {
     text-transform: uppercase;
     color: black;
     padding: 0px 10px 0px 0px;
-    font-size: 30px;
+    font-size: 35px;
 }
 
 .app {
@@ -238,12 +239,12 @@ footer .container {
 .app p {
     text-transform: uppercase;
     color: black;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 label {
     width: 100%;
-    font-size: 20px;
+    font-size: 25px;
     display: block;
 }
 
@@ -262,7 +263,7 @@ input {
 
 .offcanvas-body a {
     text-transform: uppercase;
-    font-size: 22px;
+    font-size: 27px;
 }
 
 .dropdown-menu {
@@ -293,10 +294,14 @@ input {
     object-fit: cover;
 }
 
+.itemCard {
+    font-size: 23px;
+}
+
 .colorOutter {
     border-radius: 50%;
-    width: 20px; 
-    height: 20px;
+    width: 30px; 
+    height: 30px;
     padding: 2px;
     border: 0px solid gray;
     position: relative;
@@ -306,8 +311,8 @@ input {
 
 .colorInner {
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
@@ -348,35 +353,35 @@ input {
     text-transform: uppercase;
     font-family: "Roboto Condensed", sans-serif;
     font-weight: 450;
-    font-size: 30px;
+    font-size: 35px;
 }
 
 #itemSKU {
-    font-size: 25px;
+    font-size: 30px;
 }
 
 #itemDesciption {
-    font-size: 20px;
+    font-size: 25px;
 }
 
 #addToCartBtn {
-    font-size: 20px;
+    font-size: 25px;
 }
 
 #options label {
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .specP {
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .instoreP, .instoreP span {
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .itemSpecLink, #alertRadio {
-    font-size: 18px;
+    font-size: 23px;
 }
 
 input[type=radio] {
@@ -389,7 +394,7 @@ input[type=radio] {
     align-items: center;
     gap: 10px;
     text-transform: uppercase;
-    font-size: 25px;
+    font-size: 30px;
     font-weight: bold;
 }
 
@@ -447,7 +452,7 @@ td {
 }
 
 .form-check-label {
-    font-size: 30px;
+    font-size: 35px;
 }
 
 .form-check-input:checked {
@@ -473,7 +478,7 @@ input[type="radio"] {
 } 
 
 .itemCol {
-    height: 163px;
+    height: 203px;
     display: flex;
 }
 
@@ -484,7 +489,7 @@ input[type="radio"] {
 }
 
 .detailsCart {
-    font-size: 30px;
+    font-size: 35px;
     font-weight: 400;
 }
 
@@ -499,7 +504,7 @@ input[type="radio"] {
 }
 
 .offcanvasMenuLinks a {
-    font-size: 20px;
+    font-size: 25px;
     text-decoration: none;
     color: black;
     font-weight: 400;
@@ -510,9 +515,9 @@ input[type="radio"] {
 }
 
 .itemColInfo p {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .cmsPage p {
-    font-size: 18px;
+    font-size: 20px;
 }
