@@ -21,20 +21,31 @@
                         id="navbrand">Craft</span></a>
                     <ul class="navbar-nav me-auto m-0">
                         <li class="nav-item icon">
-                          <a class="nav-link active" aria-current="page" href="index.html">
+                          <a class="nav-link" aria-current="page" href="#">
                             <img width="25" height="25" src="https://img.icons8.com/windows/32/smart-home-2.png" alt="smart-home-2"/>
                           </a>
                         </li>
                     </ul>
                     <ul class="navbar-nav m-auto m-0">
                         <li class="nav-item">
-                          <a id="searchLink" class="nav-link active" aria-current="page" href="#">Search</a>
+                          <a id="searchLink" class="nav-link" aria-current="page" href="#">Search</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto m-0">
                         <li class="nav-item icon">
-                            <a class="nav-link active" aria-current="page" href="#">
-                            <img width="27" height="27" src="https://img.icons8.com/forma-thin/24/shopping-bag.png" alt="shopping-bag"/>(0)</a>
+                            <a class="nav-link" aria-current="page" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button" aria-controls="offcanvasCart">
+                            <img width="27" height="27" src="https://img.icons8.com/forma-thin/24/shopping-bag.png" alt="shopping-bag"/>(<span id="cartQty">0</span>)</a>
+                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
+                                <div class="offcanvas-header">
+                                  <h5 class="offcanvas-title" id="offcanvasCartLabel">Cart</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
+                                <div class="offcanvas-body">
+                                    <div id="cartItems" class="cartItems w-100 row row-cols-2 row-cols-md-2">
+                                        
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </nav>
@@ -50,28 +61,60 @@
                         <ul id="offcanvasUl" class="navbar-nav justify-content-end flex- 
                          grow-1 pe-3">
                             <li class="nav-item">
-                                <a class="nav-link see-all active" aria- 
+                                <a class="nav-link" id="all" aria- 
                                  current="page" href="#">See All</a>
+                                 <a class="nav-link" id="newCollection" aria- 
+                                 current="page" href="#">New Collection</a>
                             </li>
                         </ul>
+                        <div class="mt-3">
+                            <div>
+                                <div class="offcanvasMenuLinks">
+                                    <a href="#about-us">About Us</a>
+                                    <a href="#stores">Stores</a>
+                                    <a href="#terms">Terms & conditions</a>
+                                    <a href="#help">Help</a>
+                                </div>
+                                <div class="app mt-3 h-auto">
+                                    <p>Dowload App</p>
+                                    <img src="https://cdn.pixabay.com/photo/2013/07/12/14/45/qr-code-148732_1280.png" alt="">
+                                </div>
+                            </div>
+                            <div class="socialmedia mt-3">
+                                <div class="socialmediaDiv m-0">
+                                    <a href="#">
+                                        <i class="bi bi-facebook"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="bi bi-instagram"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="bi bi-pinterest"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="bi bi-youtube"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </nav>
 
         <header id="main-links-header">
-            <div>
-                <a href=""><h1>About Concept <span class="material-symbols-outlined">
+            <div id="mainLinks">
+                <a href="#about-us"><h1>About Concept <span class="material-symbols-outlined">
                     arrow_forward</span></h1></a>
-                <a href=""><h1><span class="material-symbols-outlined">
+                <a href="#help"><h1><span class="material-symbols-outlined">
                     arrow_forward</span> Contact Us</h1></a>
-                <a href=""><h1>New Collection</h1></a>
+                <a href="#"><h1 id="newCollection" class="nav-link">New Collection</h1></a>
             </div>
         </header>
 
         <header>
             <div id="categoriesDiv">
-                <div><a class="nav-link see-all" aria-current="page" href="#">See All</a></div>
+                <div><a class="nav-link" id="all" aria-current="page" href="#">See All</a></div>
             </div>
         </header>
 
@@ -320,11 +363,11 @@
         </main>
 
         <main id="productPage">
-            <div id="productPageContainer" class="row row-cols-1 row-cols-md-2 m-0 mb-5">
-                <div class="itemMainImg col p-0">
+            <div id="productPageContainer" class="row mb-5">
+                <div class="itemMainImg col col-12 col-sm-12 col-lg-6 p-0">
                     <img id="itemMainImg" src="" alt="">
                 </div>
-                <div class="itemInfo col">
+                <div class="itemInfo col col-12 col-sm-12 col-lg-6">
                     <h2 id="itemName"></h2>
                     <h4 id="itemPrize"></h4>
                     <p id="itemSku" class="pt-2 pb-2"></p>
@@ -357,38 +400,113 @@
                             </div>
                         </div>
                     </div>
-                    <table class="table table-hover itemSize m-0 mt-3 mb-3">
-                        <thead>
-                          <tr>
-                            <th scope="col">Height</th>
-                            <th scope="col">Weight</th>
-                            <th scope="col">Depth</th>
-                          </tr>
-                        </thead>
-                        <tbody id="tableBody">
-                        </tbody>
-                    </table>
+                    <div id="options" class="table table-hover itemSize m-0 mt-5 mb-3">
+                        
+                    </div>
                     <div scope="row" class="itemCounter m-0 mt-5 mb-5">
                         <p>Quantity:</p>
                         <p id="minus" class="counterOperators"><img width="15" height="15" src="https://img.icons8.com/material-sharp/15/minus.png" alt="minus"/></p>
                         <p><span id="itemQty" class="itemQuantity">1</span></p>
                         <p id="plus" class="counterOperators"><img width="15" height="15" src="https://img.icons8.com/android/15/plus.png" alt="plus"/></p>
                     </div>
+                    <p id="alertRadio"></p>
                     <div class="btnDIV">
-                        <button class="addToCartBtn">Add To Cart</button>
+                        <button id="addToCartBtn" class="addToCartBtn" role="button" aria-controls="offcanvasCart">Add To Cart</button>
                     </div>
                 </div>
             </div>
         </main>
 
+        <section id="aboutSection" style="display: none;" class="border-top border-black">
+            <div class="cms-div">
+                <h1>About Us</h1>
+                <p>Welcome to Craft, where passion meets innovation. Since our inception, we’ve been committed to delivering high-quality products and unparalleled experiences to our customers.</p>
+                <h1>Our Story</h1>
+                <p>Founded in 2023, Craft started as a small venture with a big dream – to create meaningful connections between people and the products they love. Over the years, we have grown into a trusted brand, recognized for our dedication to quality, craftsmanship, and customer satisfaction.</p>
+                <h1>Our Mission</h1>
+                <p>At Craft, we believe that every product tells a story. Our mission is to bring you carefully crafted and beautifully designed products that enrich your life and your home. We strive to combine style, functionality, and sustainability in everything we do.</p>
+                <h1>What Sets Us Apart</h1>
+                <p>Quality Craftsmanship: We work closely with skilled artisans and use only the finest materials to create products that are made to last.</p>
+                <p>Customer-Centric Approach: Your satisfaction is our top priority. We listen to your feedback and constantly improve to meet your needs.</p>
+                <p>Sustainability: We are committed to reducing our environmental impact by using eco-friendly materials and processes wherever possible.</p>
+                <h1>Meet Our Team</h1>
+                <p>Our team of dedicated professionals shares a passion for excellence. From design to customer service, every member of Craft is committed to delivering the best possible experience for you.</p>
+                <h1>Join Us on Our Journey</h1>
+                <p>Whether you’re here for inspiration, a new addition to your home, or simply to learn more about what we do, we’re excited to have you on this journey with us. At Craft, it’s not just about products; it’s about building lasting relationships and creating experiences that matter.</p>
+            </div>
+        </section>
+
+        <section id="termsSection" style="display: none;" class="border-top border-black">
+            <div class="cms-div">
+                <h1 class="mb-5">Terms and Conditions</h1>
+                <h2>1. Acceptance of Terms</h2>
+                <p>By accessing and using Craft’s website (the "Site"), you accept and agree to be bound by these Terms and Conditions, as well as our Privacy Policy. If you do not agree to these terms, please refrain from using the Site.</p>
+                <h2>2. Changes to Terms</h2>
+                <p>We reserve the right to modify or update these Terms and Conditions at any time without prior notice. Changes will be effective immediately upon posting to the Site. Your continued use of the Site after any changes means you accept those changes.</p>
+                <h2>3. Orders and Payment</h2>
+                <p>When you place an order on our Site, you agree to provide accurate, current, and complete information. Craft reserves the right to refuse or cancel orders for any reason, including the unavailability of products or errors in product descriptions or pricing.
+                    <br>
+                All payments made on the Site are processed securely. By making a purchase, you agree to our payment terms and any fees associated with your order. We accept online payment methods, and all payments are subject to the policies of the relevant payment provider.</p>
+                <h2>4. Delivery</h2>
+                <p>We strive to process and ship orders as quickly as possible. Delivery times may vary depending on your location and availability of products. Craft is not responsible for delays caused by third-party shipping providers.</p>
+                <h2>5. Contact Information</h2>
+                <p>If you have any questions or concerns regarding these Terms and Conditions, please contact us at:</p>
+                <ul>
+                    <li>Email: craft@info.com</li>
+                    <li>Address: 30 Main Street, Tbilisi</li>
+                    <li>Phone: 555000112</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="storesSection" style="display: none;" class="border-top border-black">
+            <div class="cms-div">
+                <h2 class="mb-5">Our Store Locations</h2>
+                <p>📍 <strong>Tbilisi Store #1</strong><br>
+                <strong>Address</strong>: 12 Rustaveli Avenue, Tbilisi, Georgia<br>
+                <strong>Working Hours</strong>: Monday - Saturday: 9:00 AM - 8:00 PM, Sunday: Closed<br>
+                <strong>Phone</strong>: +995 32 123 4567</p>
+                
+                <p>📍 <strong>Tbilisi Store #2</strong><br>
+                <strong>Address</strong>: 8 Chavchavadze Avenue, Tbilisi, Georgia<br>
+                <strong>Working Hours</strong>: Monday - Friday: 10:00 AM - 7:00 PM, Saturday - Sunday: 11:00 AM - 6:00 PM<br>
+                <strong>Phone</strong>: +995 32 765 4321</p>
+                
+                <p>📍 <strong>Tbilisi Store #3</strong><br>
+                <strong>Address</strong>: 25 Abashidze Street, Tbilisi, Georgia<br>
+                <strong>Working Hours</strong>: Monday - Friday: 9:00 AM - 6:00 PM, Saturday: 10:00 AM - 5:00 PM, Sunday: Closed<br>
+                <strong>Phone</strong>: +995 32 111 2223</p>
+                
+                <p>📍 <strong>Batumi Store</strong><br>
+                <strong>Address</strong>: 50 Gorgiladze Street, Batumi, Georgia<br>
+                <strong>Working Hours</strong>: Monday - Saturday: 10:00 AM - 9:00 PM, Sunday: 12:00 PM - 6:00 PM<br>
+                <strong>Phone</strong>: +995 422 123 456</p>
+            </div>
+        </section>
+
+        <section id="helpSection" style="display: none;" class="border-top border-black">
+            <div class="cms-div">
+                <h2>Need Help? Contact Us</h2>
+                <p>We are here to assist you! If you have any questions or need further information, feel free to reach out to us through any of the following methods:</p>
+                <h3 class="mt-5">Contact Information</h3>
+                <p><strong>Phone:</strong> +995 32 123 4567</p>
+                <p><strong>Email:</strong> <a href="mailto:support@yourstore.com">support@yourstore.com</a></p>
+                <h3 class="mt-5">Social Media</h3>
+                <p>Follow us on social media for the latest updates, promotions, and more!</p>
+                <ul>
+                    <li><strong>Facebook:</strong> <a href="https://facebook.com/yourstore" target="_blank">facebook.com/yourstore</a></li>
+                    <li><strong>Instagram:</strong> <a href="https://instagram.com/yourstore" target="_blank">instagram.com/yourstore</a></li>
+                </ul>
+            </div>
+        </section>
+
         <footer>
             <div class="container">
                 <div class="footerLinks">
-                    <a href="">About Us</a>
-                    <a href="">Stores</a>
-                    <a href="">Terms & conditions</a>
-                    <a href="">Cookies</a>
-                    <a href="">Help</a>
+                    <a href="#about-us">About Us</a>
+                    <a href="#stores">Stores</a>
+                    <a href="#terms">Terms & conditions</a>
+                    <a href="#help">Help</a>
                 </div>
                 <div class="app">
                     <p>Dowload App</p>
@@ -398,16 +516,16 @@
             <div class="container">
                 <div class="socialmedia">
                     <div class="socialmediaDiv">
-                        <a href="">
+                        <a href="#">
                             <i class="bi bi-facebook"></i>
                         </a>
-                        <a href="">
+                        <a href="#">
                             <i class="bi bi-instagram"></i>
                         </a>
-                        <a href="">
+                        <a href="#">
                             <i class="bi bi-pinterest"></i>
                         </a>
-                        <a href="">
+                        <a href="#">
                             <i class="bi bi-youtube"></i>
                         </a>
                     </div>

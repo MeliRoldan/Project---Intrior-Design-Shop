@@ -91,7 +91,7 @@ body {
 #categoriesDiv div a {
     text-decoration: none;
     color: rgba(0, 0, 0, 0.781);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     text-transform: uppercase;
 }
 
@@ -194,7 +194,7 @@ footer .container {
     text-transform: uppercase;
     color: black;
     margin-left: auto;
-    font-size: 1.3rem;
+    font-size: 18px;
 }
 
 .socialmediaDiv {
@@ -275,13 +275,13 @@ input {
     color: black;
 }
 
-#main {
+/*#main {
     display: block;
 }
 
 #allProducts {
     display: none;
-}
+}*/
 
 .card-img-div {
     cursor: pointer;
@@ -320,13 +320,13 @@ input {
 
 #productPageContainer {
     width: 100%;
-    height: 100%;
+    height: auto;
     border-top: 2px solid rgba(0, 0, 0, 0.21);
 }
 
 .itemMainImg {
     width: 100%;
-    height: 100vh;
+    height: 700px;
 }
 
 .itemMainImg img {
@@ -338,8 +338,8 @@ input {
 .itemInfo {
     padding: 30px !important;
     width: 100%;
-    height: 100vh;
-    overflow-y: scroll;
+    height: 100%;
+    overflow-y: auto;
 }
 
 #itemName , #itemPrize {
@@ -413,4 +413,74 @@ input[type=radio] {
 
 .addToCartBtn:hover {
     background-color: #588157;
+}
+
+td {
+    background-color: transparent !important;
+}
+
+.activeRow {
+    background-color: #afd2af;
+}
+
+.form-check-label {
+    font-size: 18px;
+}
+
+.form-check-input:checked {
+    background-color: #588157 !important;
+    border-color: #588157 !important;
+}
+
+input[type="radio"]:focus {
+    box-shadow: 0 0 0 0.2rem #73a9724d;
+}
+
+input[type="radio"] {
+    border-color: rgba(0, 0, 0, 0.155);
+}
+
+#options div {
+    width: 100%;
+    border-bottom: 1px solid rgba(161, 161, 161, 0.699) !important;
+}
+
+#options {
+    border-radius: 5px;
+} 
+
+.itemCol {
+    height: 160px;
+    display: flex;
+}
+
+.itemColImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+.detailsCart {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#alertRadio {
+    display: none;
+    color: red;
+}
+
+.offcanvasMenuLinks {
+    display: flex;
+    flex-direction: column;
+}
+
+.offcanvasMenuLinks a {
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
+}
+
+.cms-div {
+    padding: 50px 105px;
 }

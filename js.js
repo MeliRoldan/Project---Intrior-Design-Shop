@@ -1,8 +1,9 @@
 const offcanvasUl = document.getElementById('offcanvasUl');
-const categoriesDiv = document.getElementById('categoriesDiv');
+const categoriesDiv = document.getElementById('categoriesDiv'); 
 let categoriesList = '';
 let homeCatList = '';
 
+//rendering categories and subcategrories
 for (let category of categories) {
     let subcategoriesList = '';
 
@@ -31,11 +32,13 @@ for (let category of categories) {
 offcanvasUl.innerHTML += categoriesList;
 categoriesDiv.innerHTML += homeCatList;
 
+//creating a list to save special products to render on homepage
 const specials = {
     single: [],
     set: []
 };
 
+//saving special products to corresponding list
 products.forEach(product => {
     if(product.special === "single") {
         specials.single.push(product);
@@ -47,6 +50,7 @@ products.forEach(product => {
 const singleImgDivs = document.getElementsByClassName('singleImgDiv');
 const imgSetDivs = document.getElementsByClassName('imgSet');
 
+//rendering special products on homepage
 function displayProducts() {
     Array.from(singleImgDivs).forEach((div, index) => {
         if (index < specials.single.length) {
@@ -90,31 +94,46 @@ displayProducts();
 const offcanvasBody = document.getElementById('offcanvas-body');
 const mainPage = document.getElementById('main');
 const allProducts = document.getElementById('allProducts');
+const mainLinks = document.getElementById('mainLinks');
 
+//event listener for categories/subcategories
 function categoriesEventHandler (event) {
     const target = event.target;
     const id = target.id;
+    console.log(target, id)
 
     if (target.classList.contains('nav-link') || target.classList.contains('dropdown-item')) {
         categoryPage(id);
-        if (target.classList.contains('see-all')) {
-            displayAllProducts();
-        }
+        event.preventDefault();
     }
 }
 
 offcanvasBody.addEventListener('click', categoriesEventHandler);
 categoriesDiv.addEventListener('click', categoriesEventHandler);
+mainLinks.addEventListener('click', categoriesEventHandler);
 
+//calling category/subcategory rendering or all products rendering
 function categoryPage(id) {
+    window.location.hash = `category=${id}`;
+
     mainPage.style.display = 'none';
     allProducts.style.display = 'block';
     productPage.style.display = 'none';
-    displayCategoryProducts(id);
+    aboutUsContent.style.display = 'none';
+    termsSection.style.display = 'none';
+    storesSection.style.display = 'none';
+    helpSection.style.display = 'none';
+    
+    if(id === 'all' || id === 'newCollection') {
+        displayAllProducts();
+    } else {
+        displayCategoryProducts(id);
+    }
 }
 
 const productRow = document.getElementById('productRow');
 
+//rendering products based on category/subcategory
 function displayCategoryProducts(id) {
     let htmlContent = '';
 
@@ -159,6 +178,7 @@ function displayCategoryProducts(id) {
     productRow.innerHTML = htmlContent;
 }
 
+//rendering all products for See All section
 function displayAllProducts() {
     let htmlContent = '';
 
@@ -194,6 +214,70 @@ function displayAllProducts() {
     productRow.innerHTML = htmlContent;
 }
 
+//URL managment on hash change
+window.addEventListener('hashchange', function() {
+    const hash = window.location.hash.slice(1);
+    const params = new URLSearchParams(hash);
+    const categoryId = params.get('category');
+    const productId = params.get('product');
+
+    if (hash === 'about-us'){
+        aboutUsPage();
+    } else if (hash === 'help') {
+        helpPage();
+    } else if (hash === 'stores'){
+        storesPage();
+    } else if (hash === 'terms'){
+        termsPage();
+    } else if (categoryId){
+        categoryPage(categoryId);
+    } else if (productId){
+        productPageRender(productId);
+        window.scrollTo(0, 0);
+    } else {
+        mainPage.style.display = 'block';
+        allProducts.style.display = 'none';
+        productPage.style.display = 'none';
+        aboutUsContent.style.display = 'none';
+        termsSection.style.display = 'none';
+        storesSection.style.display = 'none';
+        helpSection.style.display = 'none';
+        window.scrollTo(0, 0);
+    }
+});
+
+//URL managment on page load
+window.onload = function() {
+    const hash = window.location.hash.slice(1);
+    const params = new URLSearchParams(hash);
+    const categoryId = params.get('category');
+    const productId = params.get('product');
+
+    if (hash === 'about-us'){
+        aboutUsPage();
+    } else if (hash === 'help') {
+        helpPage();
+    } else if (hash === 'stores'){
+        storesPage();
+    } else if (hash === 'terms'){
+        termsPage();
+    } else if (categoryId){
+        categoryPage(categoryId);
+    } else if (productId){
+        productPageRender(productId);
+        window.scrollTo(0, 0);
+    } else {
+        mainPage.style.display = 'block';
+        allProducts.style.display = 'none';
+        productPage.style.display = 'none';
+        aboutUsContent.style.display = 'none';
+        termsSection.style.display = 'none';
+        storesSection.style.display = 'none';
+        helpSection.style.display = 'none';
+        window.scrollTo(0, 0);
+    }
+};
+
 const productPage = document.getElementById('productPage');
 const itemMainImg = document.getElementById('itemMainImg');
 const itemName = document.getElementById('itemName');
@@ -202,38 +286,33 @@ const itemSku = document.getElementById('itemSku');
 const itemDesciption = document.getElementById('itemDesciption');
 const colorDiv = document.getElementById('colorDiv');
 
-const tableBody = document.getElementById('tableBody');
+const optionsDiv = document.getElementById('options');
 const specDesciption = document.getElementById('specDesciption');
 const inStore = document.getElementById('inStore');
 
 const cardImgDiv = document.getElementsByClassName('.card-img-div');
 
+const itemQty = document.getElementById('itemQty');
+
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function openProductPage (event) {
-    event.preventDefault();
-    const target = event.target;
+// rendering product page
+function productPageRender (divId) {
+    window.location.hash = `product=${divId}`;
 
-    let productCard;
+    itemQty.innerText = '1';
 
-    if(mainPage.contains(target)) {
-        productCard = target.closest('.productAdiv');
-    } else if (productRow.contains(target)) {
-        productCard = target.closest('.card-img-div');
-    }
-
-    if(!productCard) {
-        return;
-    }
-
-    const divId = productCard.id;
     mainPage.style.display = 'none';
     allProducts.style.display = 'none';
+    aboutUsContent.style.display = 'none';
+    termsSection.style.display = 'none';
+    storesSection.style.display = 'none';
+    helpSection.style.display = 'none';
     productPage.style.display = 'block';
 
-    tableBody.innerHTML = '';
+    optionsDiv.innerHTML = '';
     specDesciption.innerHTML = '';
     inStore.innerHTML = '';
     
@@ -249,34 +328,38 @@ function openProductPage (event) {
     itemSku.innerHTML = findItem.id;
     itemDesciption.innerHTML = findItem.description;
 
+    colorDiv.innerHTML = '';
     let colorPicker = '';
 
     if (findItem.colors.length > 0) {
         for (let color of findItem.colors) {
             colorPicker += `
             <div class="colorOutter">
-                <div class="colorInner" style="background-color: ${color};"></div>
+                <div id="${color}" class="colorInner" style="background-color: ${color};"></div>
             </div>`;
         };
     };
 
     colorDiv.innerHTML += colorPicker;
 
-    let dimensions = '';
+    let options = '';
+    let radioId = 0;
 
-    if (findItem.dimensions.length > 0) {
-        for (let dimen of findItem.dimensions) {
-            dimensions += `
-            <tr>
-            <td id="itemH">${dimen.height} cm</td>
-            <td id="itemW">${dimen.weight} cm</td>
-            <td id="itemD">${dimen.depth} cm</td>
-            </tr>
+    if (findItem.options.length > 0) {
+        for (let dimen of findItem.options) {
+            radioId++;
+            options += `
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault${radioId}" value="${dimen.size}">
+                    <label class="form-check-label" for="flexRadioDefault${radioId}">
+                        Size: ${dimen.size}
+                    </label>
+                </div>
             `
         }
     }
 
-    tableBody.innerHTML += dimensions;
+    optionsDiv.innerHTML += options;
 
     let specs = '';
 
@@ -305,15 +388,37 @@ function openProductPage (event) {
     inStore.innerHTML += inStores;
 }
 
+// calling product page
+function openProductPage (event) {
+    event.preventDefault();
+    const target = event.target;
+
+    let productCard;
+
+    if(mainPage.contains(target)) {
+        productCard = target.closest('.productAdiv');
+    } else if (productRow.contains(target)) {
+        productCard = target.closest('.card-img-div');
+    }
+
+    if(!productCard) {
+        return;
+    }
+
+    const divId = productCard.id;
+
+    productPageRender(divId);
+}
+
 mainPage.addEventListener('click', openProductPage);
 productRow.addEventListener('click', openProductPage);
 
-const itemQty = document.getElementById('itemQty');
 const minus = document.getElementById('minus');
 const plus = document.getElementById('plus');
 
 let quantity = 1;
 
+//product quantity counter
 minus.addEventListener('click', function() {
     if (quantity > 1) {
         quantity--;
@@ -325,3 +430,150 @@ plus.addEventListener('click', function() {
     quantity++;
     itemQty.innerText = quantity;
 });
+
+const addToCart = document.getElementById('addToCartBtn');
+const alertRadio = document.getElementById('alertRadio');
+const cartItems = document.getElementById('cartItems');
+
+//color selection
+colorDiv.addEventListener('click', (event) => {
+    const target = event.target;
+
+    if (target.classList.contains('colorInner')) {
+        const allColors = document.querySelectorAll('.colorInner');
+        allColors.forEach(color => {
+            color.classList.remove('checked');
+            color.style.outline = '';
+        });
+
+        target.classList.add('checked');
+        target.style.outline = '2px solid #333';
+    }
+});
+
+//adding product to cart
+addToCart.addEventListener('click', () => {
+    const selectedOption = document.querySelector('input[name="flexRadioDefault"]:checked');
+    const selectedColor = document.querySelector('.colorInner.checked');
+    const colorDiv = productPage.querySelector('#colorDiv');
+    const colorInnerElements = colorDiv.querySelectorAll('.colorInner');
+
+    //checking product option
+    if (!selectedOption) {
+        alertRadio.style.display = "block";
+        alertRadio.style.color = "red";
+        alertRadio.innerText = "Please select size.";
+        return;
+    }
+    
+    //checking product color
+    if (colorDiv && colorInnerElements.length > 0) {
+        if (!selectedColor) {
+            alertRadio.style.display = "block";
+            alertRadio.style.color = "red";
+            alertRadio.innerText = "Please select color.";
+            return;
+        }
+    }
+        
+    alertRadio.style.display = "";
+
+    const variationId = `${selectedOption.value}-${selectedColor ? selectedColor.id : 'no-color'}`;
+    const existingItem = cartItems.querySelector(`[data-variation-id="${variationId}"]`);
+
+    //managing cart display
+    addToCart.setAttribute('data-bs-toggle', 'offcanvas');
+    addToCart.setAttribute('href', '#offcanvasCart');
+
+    const offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasCart'));
+    offcanvas.show();
+
+    addToCart.removeAttribute('data-bs-toggle');
+    addToCart.removeAttribute('href');
+
+    //updating cart quantity on in-cart product
+    if (existingItem) {
+        const inCartQty = existingItem.querySelector('#cartItemQty');
+        const currentQty = parseInt(inCartQty.innerText, 10);
+        inCartQty.innerText = `${currentQty + quantity}`;
+        
+        let cartQty = document.querySelector('#cartQty');
+        const countQty = parseInt(cartQty.innerText, 10);
+        cartQty.innerText = `${countQty + quantity}`;
+
+    } else {
+        //add new product to cart
+
+        cartItems.innerHTML += `
+        <div class="itemCol w-100 mb-3" data-variation-id="${variationId}">
+            <div class="itemColImg w-100">
+                <img src="${itemMainImg.src}" alt="sofa">
+            </div>
+            <div class="itemColInfo w-100 ps-2 h-100">
+                <p id="cartItemName" class="mb-1">${itemName.innerText}</p>
+                <p id="cartItemSku"  class="m-0 detailsCart">${itemSku.innerText}</p>
+                <p id="cartItemSize"  class="m-0 detailsCart">Size: ${selectedOption.value}</p>
+                <p id="cartItemColor"  class="m-0 detailsCart">Color: ${selectedColor ? capitalizeFirstLetter(selectedColor.id) : 'No Color'}</p>
+                <p class="m-0">Quantity: <span id="cartItemQty">${quantity}</span> </p>
+                <p id="cartItemPrize"  class="">${itemPrize.innerText}</p>
+            </div>
+        </div>
+        `
+
+        let cartQty = document.querySelector('#cartQty');
+        const countQty = parseInt(cartQty.innerText, 10);
+        cartQty.innerText = `${countQty + quantity}`;
+    }
+
+    quantity = 1;
+    itemQty.innerText = quantity;
+});
+
+const aboutUsContent = document.getElementById('aboutSection');
+const termsSection = document.getElementById('termsSection');
+const storesSection = document.getElementById('storesSection');
+const helpSection = document.getElementById('helpSection');
+
+function aboutUsPage() {
+    mainPage.style.display = 'none';
+    allProducts.style.display = 'none';
+    productPage.style.display = 'none';
+    termsSection.style.display = 'none';
+    storesSection.style.display = 'none';
+    helpSection.style.display = 'none';
+    aboutUsContent.style.display = 'block';
+    window.scrollTo(0, 0);
+}
+
+function termsPage() {
+    mainPage.style.display = 'none';
+    allProducts.style.display = 'none';
+    productPage.style.display = 'none';
+    aboutUsContent.style.display = 'none';
+    storesSection.style.display = 'none';
+    helpSection.style.display = 'none';
+    termsSection.style.display = 'block';
+    window.scrollTo(0, 0);
+}
+
+function storesPage() {
+    mainPage.style.display = 'none';
+    allProducts.style.display = 'none';
+    productPage.style.display = 'none';
+    aboutUsContent.style.display = 'none';
+    termsSection.style.display = 'none';
+    helpSection.style.display = 'none';
+    storesSection.style.display = 'block';
+    window.scrollTo(0, 0);
+}
+
+function helpPage() {
+    mainPage.style.display = 'none';
+    allProducts.style.display = 'none';
+    productPage.style.display = 'none';
+    aboutUsContent.style.display = 'none';
+    termsSection.style.display = 'none';
+    storesSection.style.display = 'none';
+    helpSection.style.display = 'block';
+    window.scrollTo(0, 0);
+}
