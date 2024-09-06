@@ -365,7 +365,19 @@
         <main id="productPage">
             <div id="productPageContainer" class="row mb-5">
                 <div class="itemMainImg col col-12 col-sm-12 col-lg-6 p-0">
-                    <img id="itemMainImg" src="" alt="">
+                    <div id="carouselExample" class="carousel slide h-100 w-100">
+                        <div id="itemSlider" class="carousel-inner h-100 w-100">
+
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="itemInfo col col-12 col-sm-12 col-lg-6">
                     <h2 id="itemName"></h2>
@@ -406,13 +418,18 @@
                     <div scope="row" class="itemCounter m-0 mt-5 mb-5">
                         <p>Quantity:</p>
                         <p id="minus" class="counterOperators"><img width="15" height="15" src="https://img.icons8.com/material-sharp/15/minus.png" alt="minus"/></p>
-                        <p><span id="itemQty" class="itemQuantity">1</span></p>
+                        <p><span id="itemQty" class="itemQuantity p-4">1</span></p>
                         <p id="plus" class="counterOperators"><img width="15" height="15" src="https://img.icons8.com/android/15/plus.png" alt="plus"/></p>
                     </div>
                     <p id="alertRadio"></p>
                     <div class="btnDIV">
                         <button id="addToCartBtn" class="addToCartBtn" role="button" aria-controls="offcanvasCart">Add To Cart</button>
                     </div>
+                </div>
+            </div>
+            <div id="similarProducts">
+                <h2 id="similarProductsH2" class="mb-3" style="display: none;">Similar Prodicts</h2>
+                <div id="similarItemsRow" class="row row-cols-2 row-cols-lg-5 row-cols-md-4 row-cols-sm-3 g-4">
                 </div>
             </div>
         </main>

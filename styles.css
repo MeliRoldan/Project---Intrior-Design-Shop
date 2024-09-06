@@ -290,8 +290,31 @@ input {
     cursor: pointer;
 }
 
-.productRow img {
+#productRow img, #similarItemsRow img {
     object-fit: cover;
+}
+
+#similarItemsRow .itemCard {
+    height: 353px; 
+    border: none;
+}
+
+#similarItemsRow .card-img-div {
+    height: 70%;
+}
+
+#similarItemsRow .card-body {
+    height: 30%;
+    text-align: center;
+}
+
+#similarProducts {
+    padding: 0px 20px;
+}
+
+#similarProducts h2 {
+    text-transform: uppercase;
+    font-size: 23px;
 }
 
 .itemCard {

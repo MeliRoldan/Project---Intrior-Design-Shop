@@ -100,8 +100,6 @@ const mainLinks = document.getElementById('mainLinks');
 function categoriesEventHandler (event) {
     const target = event.target;
     const id = target.id;
-    console.log(target, id)
-
     if (target.classList.contains('nav-link') || target.classList.contains('dropdown-item')) {
         categoryPage(id);
         event.preventDefault();
@@ -279,8 +277,9 @@ window.onload = function() {
 };
 
 const productPage = document.getElementById('productPage');
-const itemMainImg = document.getElementById('itemMainImg');
+
 const itemName = document.getElementById('itemName');
+const carouselInner = document.getElementById('itemSlider');
 const itemPrize = document.getElementById('itemPrize');
 const itemSku = document.getElementById('itemSku');
 const itemDesciption = document.getElementById('itemDesciption');
@@ -297,6 +296,8 @@ const itemQty = document.getElementById('itemQty');
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+let currentProduct = null;
 
 // rendering product page
 function productPageRender (divId) {
@@ -316,37 +317,63 @@ function productPageRender (divId) {
     specDesciption.innerHTML = '';
     inStore.innerHTML = '';
     
-    const findItem = products.find(product => {
+    
+    currentProduct = products.find(product => {
         if (product.id === divId) {
             return product;
         }
     })
     
-    itemMainImg.src = `${findItem.imgSrc}`;
-    itemName.innerHTML = findItem.name;
-    itemPrize.innerHTML = `${findItem.price} $`;
-    itemSku.innerHTML = findItem.id;
-    itemDesciption.innerHTML = findItem.description;
+    itemName.innerHTML = currentProduct.name;
+    itemPrize.innerHTML = `${currentProduct.price} $`;
+    itemSku.innerHTML = currentProduct.id;
+    itemDesciption.innerHTML = currentProduct.description;
 
+    const defaultColor = currentProduct.colors[0];
     colorDiv.innerHTML = '';
     let colorPicker = '';
 
-    if (findItem.colors.length > 0) {
-        for (let color of findItem.colors) {
+    if (currentProduct.colors.length > 0) {
+        for (let color of currentProduct.colors) {
             colorPicker += `
             <div class="colorOutter">
-                <div id="${color}" class="colorInner" style="background-color: ${color};"></div>
+                <div id="${color}" class="colorInner" style="background-color: ${color}; ${color === defaultColor ? 'outline: 2px solid #333;' : ''}"></div>
             </div>`;
         };
     };
 
     colorDiv.innerHTML += colorPicker;
 
+    let carouselItems = '';
+    
+    if (currentProduct.colors.length > 0) {
+        const defaultColor = currentProduct.colors[0];
+        if (currentProduct.images[defaultColor]) {
+            const allImages = currentProduct.images[defaultColor];
+            allImages.forEach((imgSrc, index) => {
+                const activeClass = index === 0 ? 'active' : '';
+                carouselItems += `
+                    <div class="carousel-item ${activeClass}">
+                        <img src="${imgSrc}" class="d-block w-100" alt="${currentProduct.name}">
+                    </div>
+                `;
+            });
+        }
+    } else {
+        carouselItems = `
+            <div class="carousel-item active">
+                <img src="${currentProduct.imgSrc}" class="d-block w-100" alt="${currentProduct.name}">
+            </div>
+        `;
+    }
+   
+    carouselInner.innerHTML = carouselItems;
+
     let options = '';
     let radioId = 0;
 
-    if (findItem.options.length > 0) {
-        for (let dimen of findItem.options) {
+    if (currentProduct.options.length > 0) {
+        for (let dimen of currentProduct.options) {
             radioId++;
             options += `
                 <div class="form-check">
@@ -363,9 +390,9 @@ function productPageRender (divId) {
 
     let specs = '';
 
-    for (let spec in findItem.specifications) {
+    for (let spec in currentProduct.specifications) {
         specs += `
-        <p class="specP">${capitalizeFirstLetter(spec)}: ${findItem.specifications[spec]}</p>
+        <p class="specP">${capitalizeFirstLetter(spec)}: ${currentProduct.specifications[spec]}</p>
         `
     }
 
@@ -373,8 +400,8 @@ function productPageRender (divId) {
 
     let inStores = '';
 
-    if (findItem.availability.length > 0) {
-        for (let store of findItem.availability) {
+    if (currentProduct.availability.length > 0) {
+        for (let store of currentProduct.availability) {
             inStores += `
             <p class="instoreP">
                 <span class="fst-italic">${store.branch} - </span>
@@ -386,18 +413,22 @@ function productPageRender (divId) {
     }
 
     inStore.innerHTML += inStores;
+
+    displaySimiliarItems(currentProduct);
 }
+
+const similarItemsRow = document.getElementById('similarItemsRow');
+const similarProductsH2 = document.getElementById('similarProductsH2');
 
 // calling product page
 function openProductPage (event) {
     event.preventDefault();
     const target = event.target;
-
     let productCard;
 
     if(mainPage.contains(target)) {
         productCard = target.closest('.productAdiv');
-    } else if (productRow.contains(target)) {
+    } else if (productRow.contains(target) || similarItemsRow.contains(target)) {
         productCard = target.closest('.card-img-div');
     }
 
@@ -410,8 +441,51 @@ function openProductPage (event) {
     productPageRender(divId);
 }
 
+function displaySimiliarItems(itemId) {
+    let htmlContent = '';
+
+    const filteredProducts = products.filter(product => {
+        return product.subcategory === itemId.subcategory && product.id !== itemId.id;
+    });
+
+    if (filteredProducts.length > 0) {
+        similarProductsH2.style.display = "block";
+        filteredProducts.forEach(product => {
+            let colorArr = '';
+    
+            if (product.colors) {
+                for (let color of product.colors) {
+                    colorArr += `<div class="colorOutter">
+                            <div class="colorInner" style="background-color: ${color};"></div>
+                        </div>`;
+                }
+            }
+    
+            htmlContent += `
+            <div class="col">
+                <div class="card itemCard">
+                    <div id="${product.id}" class="card-img-div">
+                        <img id="${product.id}" src="${product.imgSrc}" class="card-img-top w-100 h-100" alt="${product.name}" style="border-top-left-radius: 0; border-top-right-radius: 0; object-fit: cover;">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">${product.name}</h5>
+                        <div class="d-flex justify-content-center align-items-center h-auto">
+                            ${colorArr}
+                        </div>
+                        <p class="card-text mt-2">${product.price} $</p>
+                    </div>
+                </div>
+            </div>`;
+        });
+    } else {
+        similarProductsH2.style.display = "none";
+    }
+    similarItemsRow.innerHTML = htmlContent;
+}
+
 mainPage.addEventListener('click', openProductPage);
 productRow.addEventListener('click', openProductPage);
+similarItemsRow.addEventListener('click', openProductPage);
 
 const minus = document.getElementById('minus');
 const plus = document.getElementById('plus');
@@ -440,6 +514,8 @@ colorDiv.addEventListener('click', (event) => {
     const target = event.target;
 
     if (target.classList.contains('colorInner')) {
+        const selectedColor = target.id;
+
         const allColors = document.querySelectorAll('.colorInner');
         allColors.forEach(color => {
             color.classList.remove('checked');
@@ -448,6 +524,25 @@ colorDiv.addEventListener('click', (event) => {
 
         target.classList.add('checked');
         target.style.outline = '2px solid #333';
+
+        if (currentProduct.colors.length > 0) {
+            const selectedColor = target.id;
+            let carouselItems = '';
+
+            if (currentProduct.images[selectedColor]) {
+                const allImages = currentProduct.images[selectedColor];
+                allImages.forEach((imgSrc, index) => {
+                    const activeClass = index === 0 ? 'active' : '';
+                    carouselItems += `
+                        <div class="carousel-item ${activeClass}">
+                            <img src="${imgSrc}" class="d-block w-100" alt="${currentProduct.name}">
+                        </div>
+                    `;
+                });
+            }
+
+            carouselInner.innerHTML = carouselItems;
+        }
     }
 });
 
