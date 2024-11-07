@@ -387,10 +387,6 @@ input {
     font-size: 25px;
 }
 
-#addToCartBtn {
-    font-size: 25px;
-}
-
 #options label {
     font-size: 25px;
 }
@@ -460,6 +456,7 @@ input[type=radio] {
     color: white;
     text-transform: uppercase;
     transition: 0.3s ease-in-out;
+    font-size: 25px;
 }
 
 .addToCartBtn:hover {
@@ -498,22 +495,6 @@ input[type="radio"] {
 
 #options {
     border-radius: 5px;
-} 
-
-.itemCol {
-    height: 203px;
-    display: flex;
-}
-
-.itemColImg img {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-}
-
-.detailsCart {
-    font-size: 35px;
-    font-weight: 400;
 }
 
 #alertRadio {
@@ -537,10 +518,60 @@ input[type="radio"] {
     padding: 50px 105px;
 }
 
-.itemColInfo p {
+.cmsPage p {
     font-size: 20px;
 }
 
-.cmsPage p {
-    font-size: 20px;
+.cartCard {
+    width: 100%;
+    height: 183px;
+    object-fit: cover;
+    display: flex;
+}
+
+.cartCardImg img {
+    height: 100%;
+    width: 100%;
+}
+
+.cartCardInfo p {
+    font-size: 19px;
+}
+
+.detailsCart {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.cartItemSku {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.cartCardImg {
+    width: 40%;
+}
+
+.cartCardInfo {
+    width: 60%;
+}
+
+.cartItemQty {
+    display: flex;
+    align-items: center;
+}
+
+.cartItemQty input {
+    width: 50px;
+}
+
+#emptyCartP {
+    
+}
+
+#emptyCartP a {
+    text-transform: uppercase;
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
 }

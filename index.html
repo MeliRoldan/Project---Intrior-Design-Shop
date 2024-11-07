@@ -40,8 +40,11 @@
                                   <h5 class="offcanvas-title" id="offcanvasCartLabel">Cart</h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                 </div>
-                                <div class="offcanvas-body">
-                                    <div id="cartItems" class="cartItems w-100 row row-cols-2 row-cols-md-2">
+                                <div class="offcanvas-body" id="cartCanvas">
+                                    <p id="emptyCartP" class="mb-3">There are no items in the cart</p>
+                                    <div id="cartItems" class="cartItems w-100">
+                                    </div>
+                                    <div class="btnDIV mt-5" id="viewCartBtn">
                                         
                                     </div>
                                 </div>
@@ -514,6 +517,12 @@
                     <li><strong>Facebook:</strong> <a href="https://facebook.com/yourstore" target="_blank">facebook.com/yourstore</a></li>
                     <li><strong>Instagram:</strong> <a href="https://instagram.com/yourstore" target="_blank">instagram.com/yourstore</a></li>
                 </ul>
+            </div>
+        </section>
+
+        <section id="cartPage" class="cmsPage" style="display: none;" class="border-top border-black">
+            <div id="viewCartItems">
+                
             </div>
         </section>
 

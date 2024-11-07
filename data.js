@@ -210,8 +210,8 @@ const products = [
         category: 'Furniture', 
         subcategory: 'Bedsides', 
         options: [
-            { size: '60 (height) x 8 (weight) x 40 (depth)' }, 
-            { size: '65 (height) x 9 (weight) x 45 (depth)' }
+            { size: '60 x 8 x 40' }, 
+            { size: '65 x 9 x 45' }
         ], 
         specifications: { assembly: 'Easy', care: 'Dust regularly', material: 'Wood' }, 
         availability: [{ branch: 'Store A', address: '456 Elm St', quantity: 8 }] 
@@ -227,8 +227,8 @@ const products = [
         category: 'Furniture', 
         subcategory: 'Chairs', 
         options: [
-            { size: '95 (height) x 12 (weight) x 55 (depth)' }, 
-            { size: '100 (height) x 14 (weight) x 60 (depth)' }
+            { size: '95 x 12 x 55' }, 
+            { size: '100 x 14 x 60' }
         ], 
         specifications: { assembly: 'Easy', care: 'Wipe clean', material: 'Fabric' }, 
         availability: [{ branch: 'Store C', address: '101 Pine St', quantity: 6 }] 
@@ -244,8 +244,8 @@ const products = [
         category: 'Furniture', 
         subcategory: 'Tables', 
         options: [
-            { size: '45 (height) x 15 (weight) x 80 (depth)' }, 
-            { size: '50 (height) x 17 (weight) x 85 (depth)' }
+            { size: '45 x 15 x 80' }, 
+            { size: '50 x 17 x 85' }
         ], 
         specifications: { assembly: 'Assembly required', care: 'Wipe with a damp cloth', material: 'Metal' }, 
         availability: [{ branch: 'Main Store', address: '123 Main St', quantity: 5 }, { branch: 'Store A', address: '456 Elm St', quantity: 3 }] 
@@ -265,8 +265,8 @@ const products = [
         category: 'Furniture', 
         subcategory: 'Chairs', 
         options: [
-            { size: '100 (height) x 14 (weight) x 60 (depth)' }, 
-            { size: '105 (height) x 16 (weight) x 65 (depth)' }
+            { size: '100 x 14 x 60' }, 
+            { size: '105 x 16 x 65' }
         ], 
         specifications: { assembly: 'Professional', care: 'Dust regularly', material: 'Leather' }, 
         availability: [{ branch: 'Store A', address: '456 Elm St', quantity: 8 }, { branch: 'Store B', address: '789 Oak St', quantity: 5 }] 
@@ -288,7 +288,7 @@ const products = [
         category: 'Accessories', 
         subcategory: 'Cushions', 
         options: [
-            { size: '40 (height) x 1 (weight) x 40 (depth)' }
+            { size: '40 x 1 x 40' }
         ], 
         specifications: { assembly: 'None', care: 'Spot clean', material: 'Cotton' }, 
         availability: [{ branch: 'Store C', address: '101 Pine St', quantity: 15 }] 
@@ -304,8 +304,8 @@ const products = [
         category: 'Furniture', 
         subcategory: 'Chairs', 
         options: [
-            { size: '95 (height) x 14 (weight) x 55 (depth)' }, 
-            { size: '100 (height) x 16 (weight) x 60 (depth)' }
+            { size: '95 x 14 x 55' }, 
+            { size: '100 x 16 x 60' }
         ], 
         specifications: { assembly: 'Easy', care: 'Wipe clean', material: 'Wood' }, 
         availability: [{ branch: 'Main Store', address: '123 Main St', quantity: 5 }, { branch: 'Store B', address: '789 Oak St', quantity: 7 }] 
@@ -325,8 +325,8 @@ const products = [
         category: 'Furniture', 
         subcategory: 'Sofas', 
         options: [
-            { size: '90 (height) x 40 (weight) x 100 (depth)' }, 
-            { size: '95 (height) x 42 (weight) x 105 (depth)' }
+            { size: '90 x 40 x 100' }, 
+            { size: '95 x 42 x 105' }
         ], 
         specifications: { assembly: 'Professional', care: 'Vacuum regularly', material: 'Fabric' }, 
         availability: [{ branch: 'Store A', address: '456 Elm St', quantity: 4 }, { branch: 'Store C', address: '101 Pine St', quantity: 2 }] 
@@ -342,7 +342,7 @@ const products = [
         category: 'Decor', 
         subcategory: 'Vases', 
         options: [
-            { size: '30 (height) x 2 (weight) x 30 (depth)' }
+            { size: '30 x 2 x 30' }
         ], 
         specifications: { assembly: 'None', care: 'Wipe clean', material: 'Ceramic' }, 
         availability: [{ branch: 'Store B', address: '789 Oak St', quantity: 8 }] 
@@ -358,7 +358,7 @@ const products = [
         category: 'Accessories', 
         subcategory: 'Cushions', 
         options: [
-            { size: '40 (height) x 1 (weight) x 40 (depth)' }
+            { size: '40 x 1 x 40' }
         ], 
         specifications: { assembly: 'None', care: 'Spot clean', material: 'Polyester' }, 
         availability: [{ branch: 'Main Store', address: '123 Main St', quantity: 10 }, { branch: 'Store A', address: '456 Elm St', quantity: 5 }] 
@@ -374,8 +374,8 @@ const products = [
         category: 'Furniture', 
         subcategory: 'Chairs', 
         options: [
-            { size: '100 (height) x 16 (weight) x 60 (depth)' }, 
-            { size: '105 (height) x 18 (weight) x 65 (depth)' }
+            { size: '100 x 16 x 60' }, 
+            { size: '105 x 18 x 65' }
         ], 
         specifications: { assembly: 'Professional', care: 'Dust with a dry cloth', material: 'Leather' }, 
         availability: [{ branch: 'Store A', address: '456 Elm St', quantity: 7 }, { branch: 'Store C', address: '101 Pine St', quantity: 5 }] 
@@ -391,7 +391,7 @@ const products = [
         special: 'set',
         category: 'Decor',
         subcategory: 'Vases',
-        options: [{ size: '35 (height) x 3 (weight) x 35 (depth)' }],
+        options: [{ size: '35 x 3 x 35' }],
         specifications: { assembly: 'None', care: 'Wipe clean', material: 'Glass' },
         availability: [{ branch: 'Store B', address: '789 Oak St', quantity: 6 }]
     },
@@ -406,7 +406,7 @@ const products = [
         special: 'set',
         category: 'Furniture',
         subcategory: 'Chairs',
-        options: [{ size: '95 (height) x 12 (weight) x 55 (depth)' }, { size: '100 (height) x 14 (weight) x 60 (depth)' }],
+        options: [{ size: '95 x 12 x 55' }, { size: '100 x 14 x 60' }],
         specifications: { assembly: 'Easy', care: 'Wipe clean', material: 'Fabric' },
         availability: [{ branch: 'Main Store', address: '123 Main St', quantity: 7 }, { branch: 'Store C', address: '101 Pine St', quantity: 5 }]
     },
@@ -425,7 +425,7 @@ const products = [
         special: 'set',
         category: 'Decor',
         subcategory: 'Vases',
-        options: [{ size: '25 (height) x 2 (weight) x 25 (depth)' }],
+        options: [{ size: '25 x 2 x 25' }],
         specifications: { assembly: 'None', care: 'Wipe clean', material: 'Ceramic' },
         availability: [{ branch: 'Store C', address: '101 Pine St', quantity: 9 }]
     },
@@ -440,7 +440,7 @@ const products = [
         special: 'set',
         category: 'Furniture',
         subcategory: 'Tables',
-        options: [{ size: '50cm (height) x 15kg (weight) x 100cm (depth)' }],
+        options: [{ size: '50cm x 15kg x 100cm' }],
         specifications: { assembly: 'Assembly required', care: 'Wipe with a damp cloth', material: 'Wood' },
         availability: [{ branch: 'Main Store', address: '123 Main St', quantity: 5 }, { branch: 'Second Store', address: '456 Elm St', quantity: 3 }]
     },
@@ -461,7 +461,7 @@ const products = [
         special: 'set',
         category: 'Accessories',
         subcategory: 'Lamps',
-        options: [{ size: '30cm (height) x 3kg (weight) x 15cm (depth)' }, { size: '40cm (height) x 4kg (weight) x 20cm (depth)' }],
+        options: [{ size: '30cm x 3kg x 15cm' }, { size: '40cm x 4kg x 20cm' }],
         specifications: { assembly: 'No assembly required', care: 'Dust regularly', material: 'Metal and fabric' },
         availability: [{ branch: 'Main Store', address: '123 Main St', quantity: 10 }]
     },
@@ -476,7 +476,7 @@ const products = [
         special: 'set',
         category: 'Decor',
         subcategory: 'Vases',
-        options: [{ size: '20cm (height) x 1kg (weight) x 10cm (depth)' }],
+        options: [{ size: '20cm x 1kg x 10cm' }],
         specifications: { assembly: 'No assembly required', care: 'Clean with a soft cloth', material: 'Ceramic' },
         availability: [{ branch: 'Main Store', address: '123 Main St', quantity: 7 }, { branch: 'Second Store', address: '456 Elm St', quantity: 4 }]
     },
@@ -491,7 +491,7 @@ const products = [
         special: 'set',
         category: 'Decor',
         subcategory: 'Bowls',
-        options: [{ size: '15cm (height) x 2kg (weight) x 25cm (depth)' }, { size: '20cm (height) x 3kg (weight) x 30cm (depth)' }],
+        options: [{ size: '15cm x 2kg x 25cm' }, { size: '20cm x 3kg x 30cm' }],
         specifications: { assembly: 'No assembly required', care: 'Wipe with a dry cloth', material: 'Wood' },
         availability: [{ branch: 'Main Store', address: '123 Main St', quantity: 8 }]
     }

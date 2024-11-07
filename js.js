@@ -1,92 +1,55 @@
 const offcanvasUl = document.getElementById('offcanvasUl');
-const categoriesDiv = document.getElementById('categoriesDiv'); 
-let categoriesList = '';
-let homeCatList = '';
+const categoriesDiv = document.getElementById('categoriesDiv');
 
-//rendering categories and subcategrories
-for (let category of categories) {
-    let subcategoriesList = '';
+const categoriesList = categories.map(category => {
+    const subcategoriesList = (category.subcategories || []).map(subcategory => `<li><a id="${subcategory.id}" class="dropdown-item" href="#">${subcategory.name}</a></li>`).join('');
 
-    if (category.subcategories) {
-        for (let subcategory of category.subcategories) {
-            subcategoriesList += `<li><a id="${subcategory.id}" class="dropdown-item" href="#">${subcategory.name}</a></li>`;
-        }
-    }
+    return `<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="${category.id}" role="button" data-bs-toggle="dropdown" aria-expanded="false">${category.name} </a>
+        <ul class="dropdown-menu" aria-labelledby="${category.id}Dropdown">${subcategoriesList}</ul>
+    </li>`
+}).join('');
 
-    categoriesList += `
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="${category.id}" 
-            role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ${category.name}
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="${category.id}Dropdown">
-            ${subcategoriesList}
-        </ul>
-    </li>`;
-
-    homeCatList += `
-        <div><a id="${category.id}" class="nav-link" href="#">${category.name}</a></div>
-    `;
-}
+const homeCatList = categories.map(category => `<div><a id="${category.id}" class="nav-link" href="#">${category.name}</a></div>`).join('');
 
 offcanvasUl.innerHTML += categoriesList;
 categoriesDiv.innerHTML += homeCatList;
 
 //creating a list to save special products to render on homepage
-const specials = {
-    single: [],
-    set: []
-};
+const specials = {single: [], set: []};
 
 //saving special products to corresponding list
 products.forEach(product => {
-    if(product.special === "single") {
-        specials.single.push(product);
-    } else if (product.special === "set") {
-        specials.set.push(product);
-    }
+    if(product.special) specials[product.special].push(product);
 });
 
 const singleImgDivs = document.getElementsByClassName('singleImgDiv');
 const imgSetDivs = document.getElementsByClassName('imgSet');
 
+function renderProducts(div, product) {
+    div.style.backgroundImage = `url('${product.imgSrc}')`;
+    const productInfoDiv = div.querySelector('.productInfoDiv');
+    if (productInfoDiv) {
+        const productDivh4 = productInfoDiv.querySelector('.productDivh4');
+        const productDivh5 = div.querySelector('.productDivh5');
+        if (productDivh4 && productDivh5) {
+            productDivh4.innerHTML = `${product.name}`;
+            productDivh5.innerHTML = `${product.offer}`;
+            const productAdiv = div.closest('.productAdiv');
+            productAdiv.id = `${product.id}`;
+        }
+    }
+}
+
 //rendering special products on homepage
 function displayProducts() {
     Array.from(singleImgDivs).forEach((div, index) => {
-        if (index < specials.single.length) {
-            const product = specials.single[index];
-            div.style.backgroundImage = `url('${product.imgSrc}')`;
-            const productInfoDiv = div.querySelector('.productInfoDiv');
-            if (productInfoDiv) {
-                const productDivh4 = productInfoDiv.querySelector('.productDivh4');
-                const productDivh5 = div.querySelector('.productDivh5');
-                if (productDivh4) {
-                    productDivh4.innerHTML = `${product.name}`;
-                    productDivh5.innerHTML = `${product.offer}`;
-                    const productAdiv = div.closest('.productAdiv');
-                    productAdiv.id = `${product.id}`;
-                }
-            }
-        }
+        if (index < specials.single.length) renderProducts(div, specials.single[index]);
     });
 
     Array.from(imgSetDivs).forEach((div, index) => {
-        if (index < specials.set.length) {
-            const product = specials.set[index];
-            div.style.backgroundImage = `url('${product.imgSrc}')`;
-            const productInfoDiv = div.querySelector('.productInfoDiv');
-            if (productInfoDiv){
-                const productDivh4 = productInfoDiv.querySelector('.productDivh4');
-                const productDivh5 = div.querySelector('.productDivh5');
-                if (productDivh4) {
-                    productDivh4.innerHTML = `${product.name}`;
-                    const productAdiv = div.closest('.productAdiv');
-                    productDivh5.innerHTML = `${product.offer}`;
-                    productAdiv.id = `${product.id}`;
-                }
-            }
-        }
-    })
+        if (index < specials.set.length) renderProducts(div, specials.set[index]);
+    });
 }
 
 displayProducts();
@@ -121,6 +84,7 @@ function categoryPage(id) {
     termsSection.style.display = 'none';
     storesSection.style.display = 'none';
     helpSection.style.display = 'none';
+    cartPage.style.display = 'none';
     
     if(id === 'all' || id === 'newCollection') {
         displayAllProducts();
@@ -133,336 +97,225 @@ const productRow = document.getElementById('productRow');
 
 //rendering products based on category/subcategory
 function displayCategoryProducts(id) {
-    let htmlContent = '';
+    const filteredProducts = products.filter(product => product.category === id || product.subcategory === id);
 
-    const filteredProducts = products.filter(product => {
-        return product.category === id || product.subcategory === id;
-    });
+    const noProductText = `<div style="width: 100%; height: 300px;" class="d-flex justify-content-center align-items-center"> <p class="text-center fs-4">There are no products currently to show. <br> Come back later.</p></div>`;
 
-    if (filteredProducts.length === 0) {
-        htmlContent += `<div style="width: 100%; height: 300px;" class="d-flex justify-content-center align-items-center">
-          <p class="text-center fs-4">There are no products currently to show. <br> Come back later.</p>
-        </div>`
-    } else {
-        filteredProducts.forEach(product => {
-            let colorArr = '';
-    
-            if (product.colors) {
-                for (let color of product.colors) {
-                    colorArr += `<div class="colorOutter">
-                            <div class="colorInner" style="background-color: ${color};"></div>
-                        </div>`;
-                }
-            }
-    
-            htmlContent += `
-            <div class="col">
-                <div class="card itemCard" style="height: 573px; border: none;">
-                    <div id="${product.id}" class="card-img-div" style="height: 80%;">
-                        <img id="${product.id}" src="${product.imgSrc}" class="card-img-top w-100 h-100" alt="${product.name}" style="border-top-left-radius: 0; border-top-right-radius: 0; object-fit: cover;">
-                    </div>
-                    <div class="card-body" style="height: 20%; text-align: center;">
-                        <h5 class="card-title">${product.name}</h5>
-                        <div class="d-flex justify-content-center align-items-center h-auto">
-                            ${colorArr}
-                        </div>
-                        <p class="card-text mt-2">${product.price} $</p>
-                    </div>
+    const htmlContent = filteredProducts.map(product => {
+        const colorArr = product.colors?.map(color => `<div class="colorOutter"><div class="colorInner" style="background-color:${color};"></div></div>`).join('') || '';
+
+        return `<div class="col">
+            <div class="card itemCard" style="height: 573px; border: none;">
+                <div id="${product.id}" class="card-img-div" style="height: 80%;">
+                    <img id="${product.id}" src="${product.imgSrc}" class="card-img-top w-100 h-100" alt="${product.name}" style="border-top-left-radius: 0; border-top-right-radius: 0; object-fit: cover;">
                 </div>
-            </div>`;
-        });
-    }
+                <div class="card-body" style="height: 20%; text-align: center;">
+                    <h5 class="card-title">${product.name}</h5>
+                    <div class="d-flex justify-content-center align-items-center h-auto">${colorArr}</div>
+                    <p class="card-text mt-2">${product.price} $</p>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
 
-    productRow.innerHTML = htmlContent;
+    productRow.innerHTML = filteredProducts.length ? htmlContent : noProductText;
 }
 
 //rendering all products for See All section
 function displayAllProducts() {
-    let htmlContent = '';
+    const htmlContent = products.map(product => {
+        const colorArr = product.colors?.map(color => `<div style="border-radius: 50%; width: 20px; height: 20px; padding: 2px; border: 0px solid gray; position: relative; margin: 0px 4px;">
+            <div style="border-radius: 50%; width: 20px; height: 20px; background-color: ${color}; transform: translate(-50%, -50%); top: 50%; left: 50%; position: absolute;"></div>
+        </div>`).join('') || '';
 
-    products.forEach(product => {
-        let colorArr = '';
-
-        if (product.colors) {
-            for (let color of product.colors) {
-                colorArr += `<div style="border-radius: 50%; width: 20px; height: 20px; padding: 2px; border: 0px solid gray; position: relative; margin: 0px 4px;">
-                        <div style="border-radius: 50%; width: 20px; height: 20px; background-color: ${color}; transform: translate(-50%, -50%); top: 50%; left: 50%; position: absolute;"></div>
-                    </div>`;
-            }
-        }
-    
-        htmlContent += `
-            <div class="col">
-                <div class="card" style="height: 400px; border: none;">
+        return `<div class="col">
+            <div class="card" style="height: 400px; border: none;">
                     <div id="${product.id}" class="card-img-div" style="height: 80%;">
                         <img id="${product.id}" src="${product.imgSrc}" class="card-img-top w-100 h-100" alt="${product.name}" style="border-top-left-radius: 0; border-top-right-radius: 0; object-fit: cover;">
                     </div>
                     <div class="card-body" style="height: 20%; text-align: center;">
                         <h5 class="card-title">${product.name}</h5>
-                        <div class="d-flex justify-content-center align-items-center h-auto">
-                            ${colorArr}
-                        </div>
+                        <div class="d-flex justify-content-center align-items-center h-auto">${colorArr}</div>
                         <p class="card-text mt-2">${product.price} $</p>
                     </div>
                 </div>
-            </div>
-        `;
-    });
+        </div>`;
+    }).join('');
 
     productRow.innerHTML = htmlContent;
 }
 
+const aboutUsContent = document.getElementById('aboutSection');
+const termsSection = document.getElementById('termsSection');
+const storesSection = document.getElementById('storesSection');
+const helpSection = document.getElementById('helpSection');
+const cartPage = document.getElementById('cartPage');
+
+function showSection(section) {
+    const sections = {mainPage, allProducts, productPage, aboutUsContent, termsSection, storesSection, helpSection, cartPage};
+
+    Object.values(sections).forEach(sec => {
+        if(sec !== section) {
+            sec.style.display = 'none';
+        }
+    });
+
+    section.style.display = 'block';
+    window.scrollTo(0, 0);
+}
+
 //URL managment on hash change
-window.addEventListener('hashchange', function() {
+function hashChange() {
     const hash = window.location.hash.slice(1);
     const params = new URLSearchParams(hash);
     const categoryId = params.get('category');
     const productId = params.get('product');
 
-    if (hash === 'about-us'){
-        aboutUsPage();
-    } else if (hash === 'help') {
-        helpPage();
-    } else if (hash === 'stores'){
-        storesPage();
-    } else if (hash === 'terms'){
-        termsPage();
+    const pagesDisplay = {
+        'about-us': () => showSection(aboutUsContent),
+        'help': () => showSection(helpSection),
+        'stores': () => showSection(storesSection),
+        'terms': () => showSection(termsSection),
+        'cart-page': () => {
+            showSection(cartPage);
+            openCartPage();
+        }
+    };
+
+    if (pagesDisplay[hash]) {
+        pagesDisplay[hash]();
     } else if (categoryId){
         categoryPage(categoryId);
     } else if (productId){
         productPageRender(productId);
         window.scrollTo(0, 0);
     } else {
-        mainPage.style.display = 'block';
-        allProducts.style.display = 'none';
-        productPage.style.display = 'none';
-        aboutUsContent.style.display = 'none';
-        termsSection.style.display = 'none';
-        storesSection.style.display = 'none';
-        helpSection.style.display = 'none';
-        window.scrollTo(0, 0);
-    }
-});
-
-//URL managment on page load
-window.onload = function() {
-    const hash = window.location.hash.slice(1);
-    const params = new URLSearchParams(hash);
-    const categoryId = params.get('category');
-    const productId = params.get('product');
-
-    if (hash === 'about-us'){
-        aboutUsPage();
-    } else if (hash === 'help') {
-        helpPage();
-    } else if (hash === 'stores'){
-        storesPage();
-    } else if (hash === 'terms'){
-        termsPage();
-    } else if (categoryId){
-        categoryPage(categoryId);
-    } else if (productId){
-        productPageRender(productId);
-        window.scrollTo(0, 0);
-    } else {
-        mainPage.style.display = 'block';
-        allProducts.style.display = 'none';
-        productPage.style.display = 'none';
-        aboutUsContent.style.display = 'none';
-        termsSection.style.display = 'none';
-        storesSection.style.display = 'none';
-        helpSection.style.display = 'none';
-        window.scrollTo(0, 0);
+        showSection(mainPage);
     }
 };
 
-const productPage = document.getElementById('productPage');
+//URL managment on page load
+window.addEventListener('hashchange', hashChange);
+window.onload = hashChange;
 
+const productPage = document.getElementById('productPage');
 const itemName = document.getElementById('itemName');
 const carouselInner = document.getElementById('itemSlider');
 const itemPrize = document.getElementById('itemPrize');
 const itemSku = document.getElementById('itemSku');
 const itemDesciption = document.getElementById('itemDesciption');
 const colorDiv = document.getElementById('colorDiv');
-
 const optionsDiv = document.getElementById('options');
 const specDesciption = document.getElementById('specDesciption');
 const inStore = document.getElementById('inStore');
-
-const cardImgDiv = document.getElementsByClassName('.card-img-div');
-
 const itemQty = document.getElementById('itemQty');
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 let currentProduct = null;
+
+const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 // rendering product page
 function productPageRender (divId) {
     window.location.hash = `product=${divId}`;
-
     itemQty.innerText = '1';
 
-    mainPage.style.display = 'none';
-    allProducts.style.display = 'none';
-    aboutUsContent.style.display = 'none';
-    termsSection.style.display = 'none';
-    storesSection.style.display = 'none';
-    helpSection.style.display = 'none';
+    ['main', 'allProducts', 'aboutSection', 'termsSection', 'storesSection', 'helpSection', 'cartPage'].forEach(page => {
+        document.getElementById(page).style.display = 'none';
+    });
     productPage.style.display = 'block';
 
-    optionsDiv.innerHTML = '';
-    specDesciption.innerHTML = '';
-    inStore.innerHTML = '';
+    optionsDiv.innerHTML = specDesciption.innerHTML = inStore.innerHTML = '';
     
-    
-    currentProduct = products.find(product => {
-        if (product.id === divId) {
-            return product;
-        }
-    })
+    currentProduct = products.find(product => product.id === divId);
     
     itemName.innerHTML = currentProduct.name;
     itemPrize.innerHTML = `${currentProduct.price} $`;
     itemSku.innerHTML = currentProduct.id;
     itemDesciption.innerHTML = currentProduct.description;
 
-    const defaultColor = currentProduct.colors[0];
-    colorDiv.innerHTML = '';
-    let colorPicker = '';
-
-    if (currentProduct.colors.length > 0) {
-        for (let color of currentProduct.colors) {
-            colorPicker += `
-            <div class="colorOutter">
-                <div id="${color}" class="colorInner" style="background-color: ${color}; ${color === defaultColor ? 'outline: 2px solid #333;' : ''}"></div>
-            </div>`;
-        };
-    };
-
-    colorDiv.innerHTML += colorPicker;
-
-    let carouselItems = '';
-    
-    if (currentProduct.colors.length > 0) {
-        const defaultColor = currentProduct.colors[0];
-        if (currentProduct.images[defaultColor]) {
-            const allImages = currentProduct.images[defaultColor];
-            allImages.forEach((imgSrc, index) => {
-                const activeClass = index === 0 ? 'active' : '';
-                carouselItems += `
-                    <div class="carousel-item ${activeClass}">
-                        <img src="${imgSrc}" class="d-block w-100" alt="${currentProduct.name}">
-                    </div>
-                `;
-            });
-        }
-    } else {
-        carouselItems = `
-            <div class="carousel-item active">
-                <img src="${currentProduct.imgSrc}" class="d-block w-100" alt="${currentProduct.name}">
-            </div>
-        `;
-    }
-   
-    carouselInner.innerHTML = carouselItems;
-
-    let options = '';
-    let radioId = 0;
-
-    if (currentProduct.options.length > 0) {
-        for (let dimen of currentProduct.options) {
-            radioId++;
-            options += `
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault${radioId}" value="${dimen.size}">
-                    <label class="form-check-label" for="flexRadioDefault${radioId}">
-                        Size: ${dimen.size}
-                    </label>
-                </div>
-            `
-        }
-    }
-
-    optionsDiv.innerHTML += options;
-
-    let specs = '';
-
-    for (let spec in currentProduct.specifications) {
-        specs += `
-        <p class="specP">${capitalizeFirstLetter(spec)}: ${currentProduct.specifications[spec]}</p>
-        `
-    }
-
-    specDesciption.innerHTML += specs;
-
-    let inStores = '';
-
-    if (currentProduct.availability.length > 0) {
-        for (let store of currentProduct.availability) {
-            inStores += `
-            <p class="instoreP">
-                <span class="fst-italic">${store.branch} - </span>
-                <span class="fst-italic"> ${store.address} - </span>
-                <span class="fw-bold text-uppercase"> Qty: <span class="fw-bold">${store.quantity}</span></span>
-            </p>
-            `
-        }
-    }
-
-    inStore.innerHTML += inStores;
+    renderColors(currentProduct.colors);
+    renderCarousel(currentProduct);
+    renderOptions(currentProduct.options);
+    renderSpecs(currentProduct.specifications);
+    renderInstore(currentProduct.availability);
 
     displaySimiliarItems(currentProduct);
 }
 
-const similarItemsRow = document.getElementById('similarItemsRow');
-const similarProductsH2 = document.getElementById('similarProductsH2');
+function renderColors(colors) {
+    const defaultColor = colors[0];
+    colorDiv.innerHTML = colors.map(color => `
+        <div class="colorOutter">
+            <div id="${color}" class="colorInner ${color === defaultColor ? 'checked' : ''}" style="background-color: ${color}; ${color === defaultColor ? 'outline: 2px solid #333;' : ''}"></div>
+        </div>`
+    ).join('');
+}
+
+function renderCarousel(product) {
+    const carouselItems = product.colors.length > 0 ? product.images[product.colors[0]].map((image, index) => 
+        `<div class="carousel-item ${index === 0 ? 'active' : ''}">
+            <img src="${image}" class="d-block w-100" alt="${product.name}">
+        </div>`
+    ).join('')
+    : `<div class="carousel-item active">
+        <img src="${product.imgSrc}" class="d-block w-100" alt="${product.name}">
+    </div>`;
+
+    carouselInner.innerHTML = carouselItems;
+}
+
+function renderOptions(options) {
+    optionsDiv.innerHTML = options.map((dimen, index) => `
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault${index + 1}" value="${dimen.size}">
+            <label class="form-check-label" for="flexRadioDefault${index + 1}">Size: ${dimen.size}</label>
+        </div>`
+    ).join('');
+}
+
+function renderSpecs(specs) {
+    specDesciption.innerHTML = Object.entries(specs).map(([spec, value]) => `
+    <p class="specP">${capitalizeFirstLetter(spec)}: ${value}</p>
+    `).join('');
+}
+
+function renderInstore(stores) {
+    inStore.innerHTML = stores.map(store => `<p class="instoreP">
+            <span class="fst-italic">${store.branch} - </span>
+            <span class="fst-italic"> ${store.address} - </span>
+            <span class="fw-bold text-uppercase"> Qty: <span class="fw-bold">${store.quantity}</span></span>
+        </p>`
+    ).join('');
+}
 
 // calling product page
 function openProductPage (event) {
     event.preventDefault();
-    const target = event.target;
-    let productCard;
+    const target = event.target.closest('.productAdiv') || event.target.closest('.card-img-div');
 
-    if(mainPage.contains(target)) {
-        productCard = target.closest('.productAdiv');
-    } else if (productRow.contains(target) || similarItemsRow.contains(target)) {
-        productCard = target.closest('.card-img-div');
+    if(target) {
+        productPageRender(target.id);
     }
-
-    if(!productCard) {
-        return;
-    }
-
-    const divId = productCard.id;
-
-    productPageRender(divId);
 }
 
+mainPage.addEventListener('click', openProductPage);
+productRow.addEventListener('click', openProductPage);
+
+const similarItemsRow = document.getElementById('similarItemsRow');
+const similarProductsH2 = document.getElementById('similarProductsH2');
+
 function displaySimiliarItems(itemId) {
-    let htmlContent = '';
-
-    const filteredProducts = products.filter(product => {
-        return product.subcategory === itemId.subcategory && product.id !== itemId.id;
-    });
-
+    const filteredProducts = products.filter(product => product.subcategory === itemId.subcategory && product.id !== itemId.id);
+    
     if (filteredProducts.length > 0) {
         similarProductsH2.style.display = "block";
-        filteredProducts.forEach(product => {
-            let colorArr = '';
+        const htmlContent = filteredProducts.map(product => {
+            const colorArr = product.colors ? product.colors.map(color => `<div class="colorOutter">
+                    <div class="colorInner" style="background-color: ${color};"></div>
+                </div>`
+            ).join('') : '';
     
-            if (product.colors) {
-                for (let color of product.colors) {
-                    colorArr += `<div class="colorOutter">
-                            <div class="colorInner" style="background-color: ${color};"></div>
-                        </div>`;
-                }
-            }
-    
-            htmlContent += `
-            <div class="col">
+            return `<div class="col">
                 <div class="card itemCard">
                     <div id="${product.id}" class="card-img-div">
                         <img id="${product.id}" src="${product.imgSrc}" class="card-img-top w-100 h-100" alt="${product.name}" style="border-top-left-radius: 0; border-top-right-radius: 0; object-fit: cover;">
@@ -476,15 +329,14 @@ function displaySimiliarItems(itemId) {
                     </div>
                 </div>
             </div>`;
-        });
+        }).join('');
+
+        similarItemsRow.innerHTML = htmlContent;
     } else {
         similarProductsH2.style.display = "none";
     }
-    similarItemsRow.innerHTML = htmlContent;
 }
 
-mainPage.addEventListener('click', openProductPage);
-productRow.addEventListener('click', openProductPage);
 similarItemsRow.addEventListener('click', openProductPage);
 
 const minus = document.getElementById('minus');
@@ -514,44 +366,31 @@ colorDiv.addEventListener('click', (event) => {
     const target = event.target;
 
     if (target.classList.contains('colorInner')) {
-        const selectedColor = target.id;
-
-        const allColors = document.querySelectorAll('.colorInner');
-        allColors.forEach(color => {
+        document.querySelectorAll('.colorInner').forEach(color => {
             color.classList.remove('checked');
             color.style.outline = '';
         });
 
         target.classList.add('checked');
         target.style.outline = '2px solid #333';
-
-        if (currentProduct.colors.length > 0) {
-            const selectedColor = target.id;
-            let carouselItems = '';
-
-            if (currentProduct.images[selectedColor]) {
-                const allImages = currentProduct.images[selectedColor];
-                allImages.forEach((imgSrc, index) => {
-                    const activeClass = index === 0 ? 'active' : '';
-                    carouselItems += `
-                        <div class="carousel-item ${activeClass}">
-                            <img src="${imgSrc}" class="d-block w-100" alt="${currentProduct.name}">
-                        </div>
-                    `;
-                });
-            }
-
-            carouselInner.innerHTML = carouselItems;
-        }
+    
+        const selectedColor = target.id;
+        renderCarousel({images: currentProduct.images, colors: [selectedColor], name: currentProduct.name});
     }
 });
+
+const viewCartBtn = document.getElementById('viewCartBtn');
+const emptyCartP = document.getElementById('emptyCartP');
+
+const updateCartQty = (qty) => {
+    const cartQty = document.querySelector('#cartQty');
+    cartQty.innerText = parseInt(cartQty.innerText, 10) + qty;
+};
 
 //adding product to cart
 addToCart.addEventListener('click', () => {
     const selectedOption = document.querySelector('input[name="flexRadioDefault"]:checked');
     const selectedColor = document.querySelector('.colorInner.checked');
-    const colorDiv = productPage.querySelector('#colorDiv');
-    const colorInnerElements = colorDiv.querySelectorAll('.colorInner');
 
     //checking product option
     if (!selectedOption) {
@@ -560,53 +399,36 @@ addToCart.addEventListener('click', () => {
         alertRadio.innerText = "Please select size.";
         return;
     }
-    
-    //checking product color
-    if (colorDiv && colorInnerElements.length > 0) {
-        if (!selectedColor) {
-            alertRadio.style.display = "block";
-            alertRadio.style.color = "red";
-            alertRadio.innerText = "Please select color.";
-            return;
-        }
-    }
         
-    alertRadio.style.display = "";
+    alertRadio.style.display = '';
+    viewCartBtn.innerHTML = '';
+    emptyCartP.innerHTML = `<a href="#cart-page">View cart</a>`;
 
     const variationId = `${selectedOption.value}-${selectedColor ? selectedColor.id : 'no-color'}`;
     const existingItem = cartItems.querySelector(`[data-variation-id="${variationId}"]`);
 
     //managing cart display
-    addToCart.setAttribute('data-bs-toggle', 'offcanvas');
-    addToCart.setAttribute('href', '#offcanvasCart');
-
     const offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasCart'));
     offcanvas.show();
 
-    addToCart.removeAttribute('data-bs-toggle');
-    addToCart.removeAttribute('href');
+    const activeCarouselItem = document.querySelector('.carousel-item.active img');
+    const mainImageSrc = activeCarouselItem ? activeCarouselItem.src : currentProduct.imgSrc;
 
     //updating cart quantity on in-cart product
     if (existingItem) {
         const inCartQty = existingItem.querySelector('#cartItemQty');
-        const currentQty = parseInt(inCartQty.innerText, 10);
-        inCartQty.innerText = `${currentQty + quantity}`;
-        
-        let cartQty = document.querySelector('#cartQty');
-        const countQty = parseInt(cartQty.innerText, 10);
-        cartQty.innerText = `${countQty + quantity}`;
-
+        inCartQty.innerText = parseInt(inCartQty.innerText, 10) + quantity;
+        updateCartQty(quantity);
     } else {
         //add new product to cart
-
         cartItems.innerHTML += `
-        <div class="itemCol w-100 mb-3" data-variation-id="${variationId}">
-            <div class="itemColImg w-100">
-                <img src="${itemMainImg.src}" alt="sofa">
+        <div class="cartCard mb-3" data-variation-id="${variationId}">
+            <div class="cartCardImg">
+                <img src="${mainImageSrc}" alt="${itemName.innerText}">
             </div>
-            <div class="itemColInfo w-100 ps-2 h-100">
-                <p id="cartItemName" class="mb-1">${itemName.innerText}</p>
-                <p id="cartItemSku"  class="m-0 detailsCart">${itemSku.innerText}</p>
+            <div class="cartCardInfo ps-2">
+                <p id="cartItemName" class="m-0">${itemName.innerText}</p>
+                <p id="cartItemSku"  class="mb-1 detailsCart">${itemSku.innerText}</p>
                 <p id="cartItemSize"  class="m-0 detailsCart">Size: ${selectedOption.value}</p>
                 <p id="cartItemColor"  class="m-0 detailsCart">Color: ${selectedColor ? capitalizeFirstLetter(selectedColor.id) : 'No Color'}</p>
                 <p class="m-0">Quantity: <span id="cartItemQty">${quantity}</span> </p>
@@ -614,61 +436,33 @@ addToCart.addEventListener('click', () => {
             </div>
         </div>
         `
-
-        let cartQty = document.querySelector('#cartQty');
-        const countQty = parseInt(cartQty.innerText, 10);
-        cartQty.innerText = `${countQty + quantity}`;
+        updateCartQty(quantity);
     }
+
+    viewCartBtn.innerHTML += `<button id="cartViewBtn" class="addToCartBtn" role="button" aria-controls="offcanvasCart">View Cart</button>`;
 
     quantity = 1;
     itemQty.innerText = quantity;
 });
 
-const aboutUsContent = document.getElementById('aboutSection');
-const termsSection = document.getElementById('termsSection');
-const storesSection = document.getElementById('storesSection');
-const helpSection = document.getElementById('helpSection');
+const viewCartItems = document.getElementById('viewCartItems');
+const cartCanvas = document.getElementById('cartCanvas');
 
-function aboutUsPage() {
+function openCartPage() {
+    viewCartItems.innerHTML = '';
+
     mainPage.style.display = 'none';
     allProducts.style.display = 'none';
-    productPage.style.display = 'none';
-    termsSection.style.display = 'none';
-    storesSection.style.display = 'none';
-    helpSection.style.display = 'none';
-    aboutUsContent.style.display = 'block';
-    window.scrollTo(0, 0);
-}
-
-function termsPage() {
-    mainPage.style.display = 'none';
-    allProducts.style.display = 'none';
-    productPage.style.display = 'none';
-    aboutUsContent.style.display = 'none';
-    storesSection.style.display = 'none';
-    helpSection.style.display = 'none';
-    termsSection.style.display = 'block';
-    window.scrollTo(0, 0);
-}
-
-function storesPage() {
-    mainPage.style.display = 'none';
-    allProducts.style.display = 'none';
-    productPage.style.display = 'none';
-    aboutUsContent.style.display = 'none';
-    termsSection.style.display = 'none';
-    helpSection.style.display = 'none';
-    storesSection.style.display = 'block';
-    window.scrollTo(0, 0);
-}
-
-function helpPage() {
-    mainPage.style.display = 'none';
-    allProducts.style.display = 'none';
-    productPage.style.display = 'none';
     aboutUsContent.style.display = 'none';
     termsSection.style.display = 'none';
     storesSection.style.display = 'none';
-    helpSection.style.display = 'block';
-    window.scrollTo(0, 0);
+    helpSection.style.display = 'none';
+    productPage.style.display = 'none';
+    cartPage.style.display = 'block';
+
+    viewCartItems.innerHTML = 'Coming Soon';
+
+    //უნდა წამოიღო ქართის ეიჩთიემელი და თითოულის დივისთვის 
 }
+
+cartCanvas.addEventListener('click', openCartPage);
