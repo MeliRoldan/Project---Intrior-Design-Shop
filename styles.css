@@ -81,8 +81,16 @@ body {
     text-align: left;
 }
 
-#main-links-header .nav-link {
-    font-size: 45px;
+.nav-link:hover {
+    color: #588157 !important;
+}
+
+#main-links-header a {
+    transition: color 0.2s ease;
+}
+
+#main-links-header a:hover {
+    color: #588157;
 }
 
 #categoriesDiv{
@@ -95,9 +103,15 @@ body {
 #categoriesDiv div a {
     text-decoration: none;
     color: rgba(0, 0, 0, 0.781);
-    font-size: 23px;
+    font-size: clamp(16px, 3vw, 23px);
     text-transform: uppercase;
 }
+
+/* @media screen {
+    #categoriesDiv div a {
+        
+    }
+} */
 
 .singleImgDiv {
     width: 100%;
@@ -183,7 +197,18 @@ footer .container {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    align-items: end;
     padding-right: 30px;
+}
+
+.footerLinks a {
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: black;
+    text-align: end;
+    font-size: 25px;
+    font-size: clamp(20px, 3vw, 25px);
 }
 
 .socialmedia {
@@ -192,13 +217,8 @@ footer .container {
     display: flex;
 }
 
-.footerLinks a {
-    display: block;
-    text-decoration: none;
-    text-transform: uppercase;
-    color: black;
-    margin-left: auto;
-    font-size: 25px;
+.footerLinks a:hover, .socialmedia a:hover {
+    color:#588157
 }
 
 .socialmediaDiv {
@@ -239,13 +259,14 @@ footer .container {
 .app p {
     text-transform: uppercase;
     color: black;
-    font-size: 25px;
+    font-size: clamp(20px, 3vw, 25px);
 }
 
 label {
     width: 100%;
     font-size: 25px;
     display: block;
+    font-size: clamp(20px, 3vw, 25px);
 }
 
 input {
@@ -253,7 +274,8 @@ input {
     display: block;
     border: none;
     border-bottom: 2px solid black;
-    padding: 10px 0px 0px 0px;
+    padding: 10px 0px 0px 5px;
+    outline: none;
 }
 
 .offcanvas-title {
@@ -271,7 +293,11 @@ input {
 }
 
 .dropdown-menu .dropdown-item:hover {
-    background-color: #c0dfc086;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #c0dfc09e;
 }
 
 .dropdown-menu .dropdown-item:active {
@@ -329,7 +355,6 @@ input {
     border: 0px solid gray;
     position: relative;
     margin: 0px 4px;
-    cursor: pointer;
 }
 
 .colorInner {
@@ -449,7 +474,7 @@ input[type=radio] {
     justify-content: center;
 }
 
-.addToCartBtn {
+.addToCartBtn , .checkoutBtn {
     padding: 5px 50px;
     background-color: black;
     border:none;
@@ -459,7 +484,7 @@ input[type=radio] {
     font-size: 25px;
 }
 
-.addToCartBtn:hover {
+.addToCartBtn:hover, .checkoutBtn:hover {
     background-color: #588157;
 }
 
@@ -514,6 +539,10 @@ input[type="radio"] {
     font-weight: 400;
 }
 
+.offcanvasMenuLinks a:hover {
+    color: #588157;
+}
+
 .cms-div {
     padding: 50px 105px;
 }
@@ -556,17 +585,8 @@ input[type="radio"] {
     width: 60%;
 }
 
-.cartItemQty {
-    display: flex;
-    align-items: center;
-}
-
 .cartItemQty input {
     width: 50px;
-}
-
-#emptyCartP {
-    
 }
 
 #emptyCartP a {

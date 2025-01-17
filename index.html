@@ -26,18 +26,13 @@
                           </a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav m-auto m-0">
-                        <li class="nav-item">
-                          <a id="searchLink" class="nav-link" aria-current="page" href="#">Search</a>
-                        </li>
-                    </ul>
                     <ul class="navbar-nav ms-auto m-0">
                         <li class="nav-item icon">
                             <a class="nav-link" aria-current="page" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button" aria-controls="offcanvasCart">
-                            <img width="33" height="33" src="https://img.icons8.com/forma-thin/33/shopping-bag.png" alt="shopping-bag"/>(<span id="cartQty">0</span>)</a>
+                            <img width="33" height="33" src="https://img.icons8.com/forma-thin/33/shopping-bag.png" alt="shopping-bag"/>(<span class="cartQty">0</span>)</a>
                             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
                                 <div class="offcanvas-header">
-                                  <h5 class="offcanvas-title" id="offcanvasCartLabel">Cart</h5>
+                                  <h5 class="offcanvas-title" id="offcanvasCartLabel">Items <span class="cartQty">0</span></h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                 </div>
                                 <div class="offcanvas-body" id="cartCanvas">
@@ -111,7 +106,7 @@
                     arrow_forward</span></h1></a>
                 <a href="#help"><h1><span class="material-symbols-outlined">
                     arrow_forward</span> Contact Us</h1></a>
-                <a href="#"><h1 id="newCollection" class="nav-link">New Collection</h1></a>
+                <a href="#"><h1 id="newCollection" class="new-coll">New Collection</h1></a>
             </div>
         </header>
 
@@ -520,9 +515,16 @@
             </div>
         </section>
 
-        <section id="cartPage" class="cmsPage" style="display: none;" class="border-top border-black">
-            <div id="viewCartItems">
-                
+        <section id="cartPage" style="display: none;" class="border-top border-black">
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <div class="p-5 text-center">
+                    <h2>Items <span class="cartQty">0</span></h2>
+                    <hr>
+                    <h3>Total: <span class="cartPriceQty">0 $</span></h3>
+                    <button id="checkout" class="checkoutBtn mt-5" role="button" aria-controls="offcanvasCart">Checkout</button>
+                </div>
+                <div id="viewCartItems" class="p-5 h-auto d-flex gap-3 flex-wrap justify-content-center">
+                </div>
             </div>
         </section>
 

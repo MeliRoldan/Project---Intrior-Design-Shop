@@ -15,10 +15,10 @@ const homeCatList = categories.map(category => `<div><a id="${category.id}" clas
 offcanvasUl.innerHTML += categoriesList;
 categoriesDiv.innerHTML += homeCatList;
 
-//creating a list to save special products to render on homepage
+//create a list to save special products to render on homepage
 const specials = {single: [], set: []};
 
-//saving special products to corresponding list
+//save special products to corresponding list
 products.forEach(product => {
     if(product.special) specials[product.special].push(product);
 });
@@ -41,7 +41,7 @@ function renderProducts(div, product) {
     }
 }
 
-//rendering special products on homepage
+//render special products on homepage
 function displayProducts() {
     Array.from(singleImgDivs).forEach((div, index) => {
         if (index < specials.single.length) renderProducts(div, specials.single[index]);
@@ -63,7 +63,7 @@ const mainLinks = document.getElementById('mainLinks');
 function categoriesEventHandler (event) {
     const target = event.target;
     const id = target.id;
-    if (target.classList.contains('nav-link') || target.classList.contains('dropdown-item')) {
+    if (target.classList.contains('nav-link') || target.classList.contains('dropdown-item') || target.classList.contains('new-coll')) {
         categoryPage(id);
         event.preventDefault();
     }
@@ -73,7 +73,7 @@ offcanvasBody.addEventListener('click', categoriesEventHandler);
 categoriesDiv.addEventListener('click', categoriesEventHandler);
 mainLinks.addEventListener('click', categoriesEventHandler);
 
-//calling category/subcategory rendering or all products rendering
+//calling category/subcategory or all products page
 function categoryPage(id) {
     window.location.hash = `category=${id}`;
 
@@ -164,7 +164,7 @@ function showSection(section) {
     window.scrollTo(0, 0);
 }
 
-//URL managment on hash change
+//url managment on hash change
 function hashChange() {
     const hash = window.location.hash.slice(1);
     const params = new URLSearchParams(hash);
@@ -194,7 +194,7 @@ function hashChange() {
     }
 };
 
-//URL managment on page load
+//url managment on page load
 window.addEventListener('hashchange', hashChange);
 window.onload = hashChange;
 
@@ -245,7 +245,7 @@ function productPageRender (divId) {
 function renderColors(colors) {
     const defaultColor = colors[0];
     colorDiv.innerHTML = colors.map(color => `
-        <div class="colorOutter">
+        <div class="colorOutter" style="cursor:pointer">
             <div id="${color}" class="colorInner ${color === defaultColor ? 'checked' : ''}" style="background-color: ${color}; ${color === defaultColor ? 'outline: 2px solid #333;' : ''}"></div>
         </div>`
     ).join('');
@@ -253,7 +253,7 @@ function renderColors(colors) {
 
 function renderCarousel(product) {
     const carouselItems = product.colors.length > 0 ? product.images[product.colors[0]].map((image, index) => 
-        `<div class="carousel-item ${index === 0 ? 'active' : ''}">
+        `<div class="carousel-item h-100 ${index === 0 ? 'active' : ''}">
             <img src="${image}" class="d-block w-100" alt="${product.name}">
         </div>`
     ).join('')
@@ -297,9 +297,6 @@ function openProductPage (event) {
         productPageRender(target.id);
     }
 }
-
-mainPage.addEventListener('click', openProductPage);
-productRow.addEventListener('click', openProductPage);
 
 const similarItemsRow = document.getElementById('similarItemsRow');
 const similarProductsH2 = document.getElementById('similarProductsH2');
@@ -361,7 +358,57 @@ const addToCart = document.getElementById('addToCartBtn');
 const alertRadio = document.getElementById('alertRadio');
 const cartItems = document.getElementById('cartItems');
 
-//color selection
+const viewCartBtn = document.getElementById('viewCartBtn');
+const emptyCartP = document.getElementById('emptyCartP');
+
+const updateCartQty = () => {
+    let totalQty = 0;
+    let totalPrice = 0;
+
+    const inCartQuantities = cartItems.querySelectorAll('.cartItemQty');
+    inCartQuantities.forEach((qty) => {
+        const quantity = parseInt(qty.textContent, 10);
+        if (!isNaN(quantity)) {
+            totalQty += quantity;
+        }
+    });
+
+    const inCartPrices = cartItems.querySelectorAll('.itemPrize');
+    inCartPrices.forEach((prc) => {
+        const price = parseInt(prc.textContent, 10);
+        if (!isNaN(price)) {
+            totalPrice += price;
+        }
+    });
+
+    const cartQtyElements = document.querySelectorAll('.cartQty');
+    cartQtyElements.forEach(cartQty => {
+        cartQty.textContent = totalQty;
+    });
+
+    const totalPriceP = document.querySelector('.cartPriceQty');
+    totalPriceP.textContent = `${totalPrice} $`;
+};
+
+const saveCartToLocalStorage = () => {
+    const cartHTML = cartItems.innerHTML;
+    localStorage.setItem('cart', cartHTML);
+};
+
+const loadCartFromLocalStorage = () => {
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+        cartItems.innerHTML = savedCart;
+        viewCartBtn.innerHTML += `<a href="#cart-page"><button id="cartViewBtn" class="addToCartBtn" role="button" aria-controls="offcanvasCart">View Cart</button></a>`;
+        emptyCartP.innerHTML = `<a href="#cart-page">View Cart</a>`;
+
+        updateCartQty();
+    };
+};
+
+loadCartFromLocalStorage();
+
+//color select
 colorDiv.addEventListener('click', (event) => {
     const target = event.target;
 
@@ -379,20 +426,11 @@ colorDiv.addEventListener('click', (event) => {
     }
 });
 
-const viewCartBtn = document.getElementById('viewCartBtn');
-const emptyCartP = document.getElementById('emptyCartP');
-
-const updateCartQty = (qty) => {
-    const cartQty = document.querySelector('#cartQty');
-    cartQty.innerText = parseInt(cartQty.innerText, 10) + qty;
-};
-
-//adding product to cart
 addToCart.addEventListener('click', () => {
     const selectedOption = document.querySelector('input[name="flexRadioDefault"]:checked');
     const selectedColor = document.querySelector('.colorInner.checked');
 
-    //checking product option
+    //check product option
     if (!selectedOption) {
         alertRadio.style.display = "block";
         alertRadio.style.color = "red";
@@ -402,55 +440,61 @@ addToCart.addEventListener('click', () => {
         
     alertRadio.style.display = '';
     viewCartBtn.innerHTML = '';
-    emptyCartP.innerHTML = `<a href="#cart-page">View cart</a>`;
+    emptyCartP.innerHTML = `<a href="#cart-page">View Cart</a>`;
 
     const variationId = `${selectedOption.value}-${selectedColor ? selectedColor.id : 'no-color'}`;
     const existingItem = cartItems.querySelector(`[data-variation-id="${variationId}"]`);
 
-    //managing cart display
     const offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasCart'));
     offcanvas.show();
 
     const activeCarouselItem = document.querySelector('.carousel-item.active img');
     const mainImageSrc = activeCarouselItem ? activeCarouselItem.src : currentProduct.imgSrc;
 
-    //updating cart quantity on in-cart product
+    //updating product
     if (existingItem) {
-        const inCartQty = existingItem.querySelector('#cartItemQty');
-        inCartQty.innerText = parseInt(inCartQty.innerText, 10) + quantity;
-        updateCartQty(quantity);
+        const inCartQty = existingItem.querySelector('.cartItemQty');
+        const cartItemPrize = existingItem.querySelector('.itemPrize');
+        const itemUnitPrice = cartItemPrize.getAttribute('data-unit-price');
+
+        const currentQty = parseInt(inCartQty.innerText, 10) + quantity;
+        inCartQty.innerText = currentQty;
+
+        cartItemPrize.innerText = `${itemUnitPrice * currentQty} $`;
     } else {
+        const unitPrice = parseInt(itemPrize.innerText, 10);
+
         //add new product to cart
         cartItems.innerHTML += `
         <div class="cartCard mb-3" data-variation-id="${variationId}">
             <div class="cartCardImg">
                 <img src="${mainImageSrc}" alt="${itemName.innerText}">
             </div>
-            <div class="cartCardInfo ps-2">
+            <div class="cartCardInfo" style="padding: 0px 0px 0px 8px">
                 <p id="cartItemName" class="m-0">${itemName.innerText}</p>
                 <p id="cartItemSku"  class="mb-1 detailsCart">${itemSku.innerText}</p>
                 <p id="cartItemSize"  class="m-0 detailsCart">Size: ${selectedOption.value}</p>
                 <p id="cartItemColor"  class="m-0 detailsCart">Color: ${selectedColor ? capitalizeFirstLetter(selectedColor.id) : 'No Color'}</p>
-                <p class="m-0">Quantity: <span id="cartItemQty">${quantity}</span> </p>
-                <p id="cartItemPrize"  class="">${itemPrize.innerText}</p>
+                <p class="m-0 qtyP">Quantity: <span class="cartItemQty">${quantity}</span></p>
+                <p id="cartItemPrize"  class="itemPrize" data-unit-price="${unitPrice}">${unitPrice * quantity} $</p>
             </div>
         </div>
         `
-        updateCartQty(quantity);
     }
 
-    viewCartBtn.innerHTML += `<button id="cartViewBtn" class="addToCartBtn" role="button" aria-controls="offcanvasCart">View Cart</button>`;
+    viewCartBtn.innerHTML += `<a href="#cart-page"><button id="cartViewBtn" class="addToCartBtn" role="button" aria-controls="offcanvasCart">View Cart</button></a>`;
+
+    saveCartToLocalStorage();
+    updateCartQty();
 
     quantity = 1;
     itemQty.innerText = quantity;
 });
 
-const viewCartItems = document.getElementById('viewCartItems');
 const cartCanvas = document.getElementById('cartCanvas');
+const viewCartItems = cartPage.querySelector('#viewCartItems');
 
 function openCartPage() {
-    viewCartItems.innerHTML = '';
-
     mainPage.style.display = 'none';
     allProducts.style.display = 'none';
     aboutUsContent.style.display = 'none';
@@ -460,9 +504,133 @@ function openCartPage() {
     productPage.style.display = 'none';
     cartPage.style.display = 'block';
 
-    viewCartItems.innerHTML = 'Coming Soon';
+    viewCartItems.innerHTML = '';
+    
+    const cartHTML = localStorage.getItem('cart');
+    if (cartHTML && cartHTML.trim() !== '') {
+        viewCartItems.innerHTML = cartHTML;
 
-    //უნდა წამოიღო ქართის ეიჩთიემელი და თითოულის დივისთვის 
+        viewCartItems.querySelectorAll('.cartCard').forEach(cartItem => {
+            const variationId = cartItem.getAttribute('data-variation-id');
+            const cartQty = cartItem.querySelector('.cartItemQty');
+
+            cartItem.style.flexDirection = 'column';
+            cartItem.style.width = '333px';
+            cartItem.style.height = 'auto';
+            cartItem.querySelectorAll('div').forEach(div => {
+                div.style.width = '100%';
+            });
+
+            cartItem.querySelectorAll('.cartCardImg').forEach(div => {
+                div.style.height = '333px';
+            });
+
+            const qtyControls = document.createElement('div');
+            qtyControls.classList.add('qtyControls');
+            qtyControls.innerHTML = `
+                <span>
+                    <button class="qtyDecreaseBtn border-0 bg-white" data-id="${variationId}"><i class="bi bi-dash-circle"></i></button>
+                    <button class="qtyIncreaseBtn border-0 bg-white" data-id="${variationId}"><i class="bi bi-plus-circle"></i></button>
+                </span>
+                <button class="removeItemBtn border-0 bg-white" data-id="${variationId}"><i class="bi bi-x-lg"></i></button>
+            `;
+            cartItem.querySelector('.cartCardInfo').appendChild(qtyControls);
+
+            cartItem.querySelectorAll('.cartCardInfo').forEach(div => {
+                div.style.display = 'flex';
+                div.style.flexWrap = 'wrap';
+                div.style.justifyContent = 'space-between';
+                div.style.alignItems = 'stretch';
+                div.style.padding = '0px';
+            
+                div.querySelectorAll('#cartItemName').forEach(div => {
+                    div.style.flex = '1 1 50%';
+                    div.style.textAlign = 'left';
+                    div.style.order = 1;
+                })
+
+                div.querySelectorAll('#cartItemPrize').forEach(div => {
+                    div.style.flex = '1 1 50%';
+                    div.style.textAlign = 'right';
+                    div.style.order = 2;
+                    div.style.margin = 0;
+                })
+
+                div.querySelectorAll('#cartItemSku').forEach(div => {
+                    div.style.flex = '1 1 100%';
+                    div.style.order = 3;
+                    div.style.fontSize = '13px';
+                })
+
+                div.querySelectorAll('#cartItemColor').forEach(div => {
+                    div.style.flex = '1 1 100%';
+                    div.style.order = 4;
+                    div.style.fontSize = '16px';
+                })
+                
+                div.querySelectorAll('#cartItemSize').forEach(div => {
+                    div.style.flex = '1 1 100%';
+                    div.style.order = 5;
+                    div.style.fontSize = '16px';
+                })
+            
+                div.querySelectorAll('.qtyP').forEach(div => {
+                    div.style.flex = '0 1 auto'
+                    div.style.order = 6;
+                })
+
+                div.querySelectorAll('.qtyControls').forEach(div => {
+                    div.style.flex = '1 1 auto';
+                    div.style.order = 7;
+                    div.style.display = 'flex';
+                    div.style.justifyContent = 'space-between';
+                    div.style.alignItems = 'center';
+                    div.style.paddingLeft = '10px';
+                })
+            });
+
+            qtyControls.querySelector('.qtyIncreaseBtn').addEventListener('click', () => updateQuantity(variationId, 1));
+            qtyControls.querySelector('.qtyDecreaseBtn').addEventListener('click', () => {
+                const currentQty = parseInt(cartQty.textContent, 10);
+                if (currentQty > 1) {
+                    updateQuantity(variationId, -1);
+                }
+            });
+            qtyControls.querySelector('.removeItemBtn').addEventListener('click', () => removeCartItem(variationId));
+        });
+    } else {
+        viewCartItems.innerHTML = `<p class='fs-3'>Your cart is empty...</p>`;
+    }
+}
+
+function updateQuantity(variationId, num) {
+    const cartItem = cartItems.querySelector(`[data-variation-id="${variationId}"]`);
+    if (!cartItem) return;
+
+    const cartQty = cartItem.querySelector('.cartItemQty');
+    const cartItemPrize = cartItem.querySelector('.itemPrize');
+    const unitPrice = cartItemPrize.getAttribute('data-unit-price');
+    
+    let newQty = parseInt(cartQty.textContent, 10) + num;
+    cartItemPrize.textContent = `${unitPrice * newQty} $`;
+    cartQty.textContent = newQty;
+
+    saveCartToLocalStorage();
+    updateCartQty();
+    openCartPage();
+}
+
+function removeCartItem(variationId) {
+    const cartItem = cartItems.querySelector(`[data-variation-id="${variationId}"]`);
+    if (cartItem) {
+        cartItem.remove();
+        saveCartToLocalStorage();
+        updateCartQty();
+        openCartPage();
+    }
 }
 
 cartCanvas.addEventListener('click', openCartPage);
+
+mainPage.addEventListener('click', openProductPage);
+productRow.addEventListener('click', openProductPage);
