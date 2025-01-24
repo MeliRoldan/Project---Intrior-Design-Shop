@@ -77,7 +77,7 @@ const products = [
     },
     {
         id: 'SKU-3000',
-        imgSrc: 'images/gwen.avif',
+        imgSrc: 'images/gwen.jpg',
         name: 'Gwen 968',
         description: 'Stylish single item to enhance your home.',
         offer: 'Sale %30',
@@ -107,7 +107,7 @@ const products = [
     },
     {
         id: 'SKU-5000',
-        imgSrc: 'images/table.jpg',
+        imgSrc: 'images/table.webp',
         name: 'Zana 131',
         description: 'Modern and sleek single product for any decor.',
         offer: 'Sale %25',
@@ -122,7 +122,7 @@ const products = [
     },
     {
         id: 'SKU-6000',
-        imgSrc: 'images/terra.webp',
+        imgSrc: 'images/terra.jpg',
         name: 'Terra 686',
         description: 'Chic single piece with a stylish touch.',
         offer: 'Buy Now',
@@ -152,7 +152,7 @@ const products = [
     },
     {
         id: 'SKU-8000',
-        imgSrc: 'images/chair.avif',
+        imgSrc: 'images/chair.jpg',
         images: {
             peru: ['images/chair.jpg', 'images/chair-peru.jpg'],
             black: ['images/char-black-1.jpg', 'images/chair-black-2.jpg'],
@@ -251,9 +251,9 @@ const products = [
         availability: [{ branch: 'Main Store', address: '123 Main St', quantity: 5 }, { branch: 'Store A', address: '456 Elm St', quantity: 3 }] 
     },
     { id: 'SKU-1400', 
-        imgSrc: 'images/chair3.jpg', 
+        imgSrc: 'images/chair3.webp', 
         images: {
-            lightgray: ['images/chair3.jpg'],
+            lightgray: ['images/chair3.webp'],
             burlywood: ['images/armchair-brown-1.webp'],
         },
         name: 'Blanko 001', 
@@ -294,7 +294,7 @@ const products = [
         availability: [{ branch: 'Store C', address: '101 Pine St', quantity: 15 }] 
     },
     { id: 'SKU-1600', 
-        imgSrc: 'images/chair5.avif', 
+        imgSrc: 'images/chair5.webp', 
         name: 'Greko 383', 
         description: 'Elegant chair set with a modern design.',
         offer: 'Buy Now', 
@@ -412,9 +412,9 @@ const products = [
     },
     {
         id: 'SKU-2300',
-        imgSrc: 'images/vase.avif',
+        imgSrc: 'images/vase.webp',
         images: {
-            black: ['images/vase.avif'],
+            black: ['images/vase.webp'],
             cornsilk: ['images/vase-white.jpg'],
         }, 
         name: 'Tuta 440',
